@@ -74,8 +74,11 @@
     "name": "Maybelline Instant Age Rewind 4-in-1",
     "price": 550,
     "cat": "Maquillaje",
-    "desc": "Corrector multiuso para una apariencia fresca.",
+    "desc": "La fórmula multiusos ofrece la transformación de un primer, corrector, iluminador y BB Cream en un solo paso.\n\n8 tonos autoajustables creados especialmente para todos los tonos de piel y formulados para difuminarse con tu cutis único.\n\nCobertura ligera que prepara, corrige, ilumina y unifica perfectamente el tono de la piel.\n\nAcabado iluminador y brillante para lograr un aspecto saludable de la piel.",
     "img": "/images/2581945-1.avif",
+    "extras": [
+      "/images/Maybelline-Instant_Age_Rewind_Perfectos_4-IN-1_Glow_Makeup_01_light-Photoroom.png"
+    ],
     "disponible": true,
     "id": "7999"
   },
