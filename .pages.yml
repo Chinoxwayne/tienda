@@ -1,0 +1,41 @@
+media:
+  input: images
+  output: /images
+content:
+  - name: productos
+    label: Productos
+    type: file
+    path: products.json
+    format: json
+    list: true
+    fields:
+      - name: name
+        label: Nombre
+        type: string
+        required: true
+      - name: price
+        label: Precio (RD$)
+        type: number
+        required: true
+      - name: cat
+        label: Categoría
+        type: select
+        required: true
+        options:
+          values: [Maquillaje, Skincare, Cuidado y fragancias]
+      - name: desc
+        label: Descripción
+        type: text
+      - name: img
+        label: Foto
+        type: image
+      - name: tag
+        label: Etiqueta (opcional, por ejemplo Nuevo)
+        type: string
+      - name: disponible
+        label: Disponible
+        type: boolean
+        default: true
+      - name: id
+        label: Código (déjalo vacío en productos nuevos)
+        type: string
