@@ -1,0 +1,1579 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ixm.girl — For the girl you’re becoming.</title>
+  <meta name="description" content="Descubre maquillaje, skincare, cremas y accesorios de belleza en ixm.girl. Experiencia inmersiva de ultra-lujo.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@0.469.0"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: '#241B20',
+            muted: '#82747B',
+            pinky: '#E6A6B7',
+            pale: '#FAEDF0',
+            cream: '#FFFAF7',
+            creamy: '#FFFAF7',
+            plum: '#684455',
+            line: '#F0E2E5',
+            limeAccent: '#D9EDC9'
+          },
+          fontFamily: {
+            sans: ['"DM Sans"', 'sans-serif'],
+            serif: ['"Playfair Display"', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Antes y después: mismo marco y misma escala, sin recortes distintos. */
+    .ba-photo { width: 100%; height: 100%; object-fit: contain; object-position: center center; }
+    :root {
+      --ink: #241B20;
+      --muted: #82747B;
+      --pink: #E6A6B7;
+      --cream: #FFFAF7;
+      --line: #F0E2E5;
+    }
+
+    body {
+      background-color: var(--cream);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #FFFAF7;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #E6A6B7;
+      border-radius: 3px;
+    }
+
+    /* Catálogo: integrar fondos blancos de las fotografías con el fondo crema */
+    .product-catalog-image {
+      mix-blend-mode: multiply;
+      background: transparent;
+    }
+
+    /* Glass Effects */
+    .glass-header {
+      background: rgba(255, 250, 247, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(240, 226, 229, 0.8);
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(240, 226, 229, 0.6);
+    }
+
+    .glass-dark {
+      background: rgba(36, 27, 32, 0.85);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Cursor Glow */
+    .cursor-glow {
+      position: fixed;
+      width: 360px;
+      height: 360px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(230, 166, 183, 0.22), transparent 70%);
+      pointer-events: none;
+      z-index: 999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.08s ease-out;
+    }
+
+    /* Marquee Animation */
+    @keyframes marquee {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+      display: flex;
+      width: max-content;
+      animation: marquee 25s linear infinite;
+    }
+
+    /* Float Animation */
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(1.5deg); }
+    }
+    .animate-float {
+      animation: floatSlow 6s ease-in-out infinite;
+    }
+
+    html { scroll-padding-top: 5rem; }
+    :focus-visible { outline: 2px solid var(--pink); outline-offset: 2px; }
+    @media (prefers-reduced-motion: reduce) {
+      .animate-marquee, .animate-float { animation: none !important; }
+      .cursor-glow { display: none !important; }
+      html { scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body class="selection:bg-pinky/30 selection:text-ink relative overflow-x-hidden">
+
+  <!-- Interactive Cursor Glow -->
+  <div class="cursor-glow hidden md:block" id="glow"></div>
+
+  <!-- Announcement Bar -->
+  <div class="bg-ink text-white text-center py-2.5 px-4 text-[10px] sm:text-xs tracking-[0.2em] font-semibold uppercase z-50 relative">
+    UN POQUITO DE <span class="text-pinky font-bold">GLOW</span> PARA TU DÍA ✳ ENVÍOS Y NOVEDADES EXCLUSIVAS
+  </div>
+
+  <!-- Header / Navigation -->
+  <header class="glass-header sticky top-0 z-40 h-20 px-6 sm:px-12 flex items-center justify-between transition-all">
+    <!-- Brand Logo -->
+    <a href="#home" class="group flex flex-col items-center">
+      <span class="font-serif font-bold text-2xl sm:text-3xl tracking-tight text-ink group-hover:opacity-80 transition-opacity">
+        ixm<i class="text-pinky font-normal">.</i>girl
+      </span>
+      <span class="text-[8px] font-bold tracking-[0.3em] uppercase text-muted -mt-1">BEAUTY STUDIO</span>
+    </a>
+
+    <!-- Navigation Links -->
+    <nav class="hidden lg:flex items-center gap-8 text-xs font-bold tracking-widest uppercase">
+      <a href="#home" class="hover:text-pinky transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-pinky hover:after:w-full after:transition-all">Inicio</a>
+      <a href="#scrolly-section" class="hover:text-pinky transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-pinky hover:after:w-full after:transition-all">Shea Better</a>
+      <a href="#ar-studio" class="text-plum hover:text-pinky flex items-center gap-1.5 transition-colors">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-pinky"></i> AR Mirror
+      </a>
+      <a href="#categories" class="hover:text-pinky transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-pinky hover:after:w-full after:transition-all">Descubre</a>
+      <a href="#shop" class="hover:text-pinky transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-pinky hover:after:w-full after:transition-all">Tienda</a>
+    </nav>
+
+    <!-- Header Actions -->
+    <div class="flex items-center gap-4">
+      <button onclick="openQuizModal()" class="hidden sm:flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider px-4 py-2 rounded-full border border-pinky/50 bg-pinky/10 text-ink hover:bg-pinky hover:text-white transition-all">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+        <span>Beauty Mood Quiz</span>
+      </button>
+
+      <button onclick="toggleCart()" class="relative p-2.5 rounded-full hover:bg-black/5 transition-colors group" aria-label="Abrir Bolsa de Belleza">
+        <i data-lucide="shopping-bag" class="w-5 h-5 text-ink group-hover:text-pinky transition-colors"></i>
+        <span id="count" class="absolute -top-1 -right-1 bg-pinky text-white font-bold text-[10px] w-5 h-5 rounded-full flex items-center justify-center shadow-md">0</span>
+      </button>
+
+      <button onclick="toggleMobileNav()" class="lg:hidden p-2 text-ink" aria-label="Menú">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Dropdown Navigation -->
+  <div id="mobile-nav" class="hidden fixed inset-x-0 top-20 bg-cream/95 backdrop-blur-xl border-b border-line p-6 z-30 flex-col gap-4 text-xs font-bold uppercase tracking-widest text-ink shadow-xl">
+    <a href="#home" onclick="toggleMobileNav()" class="py-2 border-b border-line/50">Inicio</a>
+    <a href="#scrolly-section" onclick="toggleMobileNav()" class="py-2 border-b border-line/50">Shea Better</a>
+    <a href="#ar-studio" onclick="toggleMobileNav()" class="py-2 border-b border-line/50 text-plum flex items-center gap-2"><i data-lucide="sparkles" class="w-4 h-4 text-pinky"></i> AR Mirror Studio</a>
+    <a href="#categories" onclick="toggleMobileNav()" class="py-2 border-b border-line/50">Categorías</a>
+    <a href="#shop" onclick="toggleMobileNav()" class="py-2 border-b border-line/50">Tienda Completa</a>
+    <button onclick="openQuizModal(); toggleMobileNav();" class="mt-2 text-center py-3 rounded-full bg-pinky text-white font-bold">Realizar Beauty Mood Quiz</button>
+  </div>
+
+
+  <!-- HERO SECTION -->
+  <section id="home" class="relative min-h-[calc(100vh-80px)] flex items-center justify-center py-16 px-6 sm:px-12 bg-gradient-to-br from-[#FFFAF7] via-[#FFF5F4] to-[#F5DFE4] overflow-hidden">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center z-10">
+      
+      <!-- Copy column -->
+      <div class="lg:col-span-6 space-y-6 text-center lg:text-left">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/80 border border-pinky/40 text-plum text-[10px] font-bold tracking-widest uppercase shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-pinky animate-pulse"></span>
+          A little beauty, a lot of you ✳
+        </div>
+
+        <h1 class="font-serif text-5xl sm:text-7xl lg:text-8xl leading-[0.95] tracking-tight font-medium text-ink">
+          Beauty,<br>
+          but make<br>
+          it <em class="text-pinky italic font-normal">you.</em>
+        </h1>
+
+        <p class="text-muted text-sm sm:text-base leading-relaxed max-w-md mx-auto lg:mx-0 font-normal">
+          No hay una sola forma de ser bonita. Hay mil maneras de expresarte, cuidarte y sentirte increíble. Encuentra tus nuevos favoritos y convierte tu rutina en tu momento.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-2">
+          <a href="#shop" class="px-8 py-4 rounded-full bg-ink text-white font-bold text-xs uppercase tracking-widest hover:bg-plum hover:-translate-y-1 transition-all duration-300 shadow-lg flex items-center justify-center gap-3">
+            <span>Descubrir la Tienda</span>
+            <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+          </a>
+          <a href="#categories" class="px-8 py-4 rounded-full border border-ink/20 bg-white/50 hover:bg-white text-ink font-bold text-xs uppercase tracking-widest transition-all text-center">
+            Explorar Categorías
+          </a>
+        </div>
+      </div>
+
+      <!-- Visual Showcase Column -->
+      <div class="lg:col-span-6 relative flex items-center justify-center">
+        <div class="relative w-full max-w-md aspect-[4/5] rounded-[48px] overflow-hidden shadow-2xl border-4 border-white/80 transform rotate-1 hover:rotate-0 transition-transform duration-700">
+          <!-- Foto de portada -->
+          <img src="images/portada-ixmgirl.webp" alt="Selección de maquillaje ixm.girl sobre manta blanca" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-ink/40 via-transparent to-transparent"></div>
+        </div>
+
+        <!-- Float Badges -->
+        <div class="absolute -left-2 sm:left-4 bottom-12 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-line transform -rotate-6 animate-float z-20">
+          <span class="text-[9px] font-bold tracking-widest text-muted uppercase block">YOUR DAILY REMINDER</span>
+          <b class="font-serif text-lg text-ink">You're the vibe. ♡</b>
+        </div>
+
+        <div class="absolute -right-2 sm:right-4 top-8 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-line transform rotate-6 animate-float z-20">
+          <span class="text-[9px] font-bold tracking-widest text-muted uppercase block">THE BEAUTY EDIT</span>
+          <b class="font-serif text-lg text-ink">Feel good skin ✳</b>
+        </div>
+
+        <!-- Sticker Accent -->
+        <div class="absolute -bottom-4 right-8 w-24 h-24 rounded-full bg-limeAccent flex flex-col items-center justify-center text-center font-serif italic text-xs shadow-lg transform rotate-12 z-20 text-ink">
+          made for<br>your glow ✳
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- MARQUEE TICKER -->
+  <div class="bg-pinky text-white py-3.5 overflow-hidden shadow-inner">
+    <div class="animate-marquee font-bold text-xs tracking-widest uppercase flex items-center gap-12">
+      <span>YOUR SKIN, YOUR RULES <b class="text-limeAccent font-serif text-base font-normal">✳</b></span>
+      <span>BEAUTY IS AN ATTITUDE <b class="text-limeAccent font-serif text-base font-normal">✳</b></span>
+      <span>GLOW YOUR OWN WAY <b class="text-limeAccent font-serif text-base font-normal">✳</b></span>
+      <span>IXM.GIRL BEAUTY STUDIO <b class="text-limeAccent font-serif text-base font-normal">✳</b></span>
+      <span>YOUR SKIN, YOUR RULES <b class="text-limeAccent font-serif text-base font-normal">✳</b></span>
+      <span>BEAUTY IS AN ATTITUDE <b class="text-limeAccent font-serif text-base font-normal">✳</b></span>
+      <span>GLOW YOUR OWN WAY <b class="text-limeAccent font-serif text-base font-normal">✳</b></span>
+      <span>IXM.GIRL BEAUTY STUDIO <b class="text-limeAccent font-serif text-base font-normal">✳</b></span>
+    </div>
+  </div>
+
+
+  <!-- REPLACED SCROLLETYLLING WITH SMOOTH INTERACTIVE 3D FEATURE CARD -->
+  <section id="scrolly-section" class="py-24 px-6 sm:px-12 bg-ink text-white relative overflow-hidden">
+    <!-- Ambient Glow Sphere Background -->
+    <div class="absolute w-[600px] h-[600px] rounded-full bg-pinky/10 blur-[140px] pointer-events-none top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+
+    <div class="max-w-6xl mx-auto z-10 relative">
+      
+      <div class="text-center max-w-2xl mx-auto mb-16 space-y-3">
+        <span class="text-pinky text-xs font-bold uppercase tracking-widest">Icono iXM Studio • Revelación de Fórmula</span>
+        <h2 class="font-serif text-4xl sm:text-6xl font-medium leading-tight">eos Shea Better™ 24H Moisture</h2>
+        <p class="text-slate-300 text-xs sm:text-sm font-light leading-relaxed">
+          Hidratación diaria con una mezcla nutritiva de aceites y mantecas. Explora sus beneficios y el aroma Pomegranate Raspberry.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Interactive 3D Card Showcase -->
+        <div class="lg:col-span-6 flex items-center justify-center">
+          <div id="elixir-card" class="relative w-full max-w-sm sm:max-w-md aspect-[4/5] rounded-3xl overflow-hidden glass-dark p-3 border border-white/20 shadow-2xl transition-all duration-500 transform hover:scale-[1.02]">
+            
+            <!-- Real Serum Dropper Photo -->
+            <img src="https://i.ibb.co/gLrLw5XW/IMG-0189.jpg" alt="eos Shea Better 24H Moisture Body Lotion Pomegranate Raspberry" class="w-full h-full object-cover rounded-2xl">
+            
+            <div class="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-transparent opacity-80 rounded-2xl"></div>
+
+            <!-- Dynamic Floating Ingredient Badge -->
+            <div id="elixir-badge" class="absolute bottom-6 left-6 right-6 p-4 rounded-2xl glass-dark border border-pinky/30 transition-all duration-300">
+              <span id="badge-tag" class="text-[9px] font-bold uppercase tracking-widest text-pinky block">✨ Hidratación 24H</span>
+              <h4 id="badge-title" class="font-serif text-xl font-medium text-white">Shea Better™ Body Lotion</h4>
+              <p id="badge-desc" class="text-xs text-slate-300 mt-1 font-light">Loción corporal con 7 aceites nutritivos y mantecas para ayudar a suavizar y proteger la piel seca.</p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Interactive Formula Chapters (Accordion / Tabs) -->
+        <div class="lg:col-span-6 space-y-4">
+          
+          <div onclick="selectElixirTab(1)" id="elixir-tab-1" class="elixir-tab p-6 rounded-3xl glass-dark border border-pinky cursor-pointer transition-all duration-300 hover:border-pinky">
+            <div class="flex items-center justify-between">
+              <span class="text-pinky text-xs font-bold uppercase tracking-widest">01 • Hidratación</span>
+              <span class="w-2 h-2 rounded-full bg-pinky"></span>
+            </div>
+            <h3 class="font-serif text-2xl font-medium text-white mt-2">Hidratación por 24 horas</h3>
+            <p class="text-slate-300 text-xs sm:text-sm mt-2 leading-relaxed font-light">
+              Su fórmula está diseñada para aportar hidratación duradera y dejar la piel con una sensación suave.
+            </p>
+          </div>
+
+          <div onclick="selectElixirTab(2)" id="elixir-tab-2" class="elixir-tab p-6 rounded-3xl glass-dark border border-white/10 opacity-70 cursor-pointer transition-all duration-300 hover:border-pinky hover:opacity-100">
+            <div class="flex items-center justify-between">
+              <span class="text-limeAccent text-xs font-bold uppercase tracking-widest">02 • Nutrición</span>
+              <span class="w-2 h-2 rounded-full bg-limeAccent opacity-0"></span>
+            </div>
+            <h3 class="font-serif text-2xl font-medium text-white mt-2">7 aceites nutritivos + mantecas</h3>
+            <p class="text-slate-300 text-xs sm:text-sm mt-2 leading-relaxed font-light">
+              Una combinación de aceites y mantecas que ayuda a nutrir y suavizar la piel seca.
+            </p>
+          </div>
+
+          <div onclick="selectElixirTab(3)" id="elixir-tab-3" class="elixir-tab p-6 rounded-3xl glass-dark border border-white/10 opacity-70 cursor-pointer transition-all duration-300 hover:border-pinky hover:opacity-100">
+            <div class="flex items-center justify-between">
+              <span class="text-white text-xs font-bold uppercase tracking-widest">03 • Aroma</span>
+              <span class="w-2 h-2 rounded-full bg-white opacity-0"></span>
+            </div>
+            <h3 class="font-serif text-2xl font-medium text-white mt-2">Pomegranate Raspberry</h3>
+            <p class="text-slate-300 text-xs sm:text-sm mt-2 leading-relaxed font-light">
+              Una fragancia frutal de granada y frambuesa que acompaña la rutina diaria de hidratación.
+            </p>
+          </div>
+
+          <div class="pt-4">
+            <button onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})" class="w-full sm:w-auto px-8 py-4 rounded-full bg-pinky text-ink font-bold text-xs uppercase tracking-widest hover:bg-white transition-all shadow-xl flex items-center justify-center gap-3">
+              <span>Añadir eos a mi Bag — RD$1,200</span>
+              <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- AR VIRTUAL TRY-ON STUDIO MIRROR -->
+  <section id="ar-studio" class="py-24 px-6 sm:px-12 bg-gradient-to-b from-ink via-[#2D2128] to-ink text-white relative border-t border-white/10">
+    <div class="max-w-7xl mx-auto">
+      
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-dark text-pinky text-xs font-bold uppercase tracking-widest border border-pinky/30 mb-3">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+          AR Studio ixm.girl
+        </div>
+        <h2 class="font-serif text-4xl sm:text-6xl font-medium text-white">Prueba Virtual de Tonos</h2>
+        <p class="text-slate-300 mt-3 text-xs sm:text-sm leading-relaxed">Selecciona tu tono o activa tu cámara para simular cómo resalta en ti nuestro Glow Reviver Lip Oil.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        
+        <!-- Live Mirror Stage (7 Cols) -->
+        <div class="lg:col-span-7 glass-dark rounded-3xl p-6 border border-white/15 shadow-2xl relative">
+          <div class="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-black flex items-center justify-center">
+            
+            <!-- Webcam Simulation Layer -->
+            <video id="ar-webcam" class="hidden w-full h-full object-cover transform -scale-x-100" autoplay playsinline muted></video>
+            
+            <!-- Real Avatar Image Fallback -->
+            <img id="ar-avatar" crossorigin="anonymous" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1000&q=85" alt="Modelo ixm" class="w-full h-full object-cover object-center">
+
+            <!-- Real-time lip-only tint canvas: skin, eyes and background remain untouched -->
+            <canvas id="lip-tint-canvas" class="absolute inset-0 w-full h-full pointer-events-none" style="mix-blend-mode:multiply; width:100%; height:100%;"></canvas>
+
+            <!-- Control Buttons -->
+            <div class="absolute bottom-4 left-4 z-20">
+              <button onclick="toggleWebcam()" id="cam-btn" class="px-4 py-2 rounded-full glass-dark text-xs font-bold text-white flex items-center gap-2 hover:bg-white/20 transition-all border border-white/20">
+                <i data-lucide="camera" class="w-4 h-4 text-pinky"></i>
+                <span>Activar Cámara en Vivo</span>
+              </button>
+            </div>
+
+            <div class="absolute top-4 right-4 z-20 glass-dark px-3 py-1 rounded-full text-[10px] text-pinky font-bold uppercase tracking-wider border border-pinky/30">
+              AR Mirror Simulación
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Shade Selector Controls (5 Cols) -->
+        <div class="lg:col-span-5 glass-dark rounded-3xl p-8 border border-white/15 space-y-6">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-widest text-pinky">e.l.f. Cosmetics</span>
+            <h3 class="font-serif text-2xl sm:text-3xl text-white mt-1">Glow Reviver Lip Oil</h3>
+            <p class="text-xs text-slate-300 mt-2">Aceite labial ligero e hidratante, con brillo luminoso, destellos perlados y acabado cómodo no pegajoso.</p>
+          </div>
+
+          <div class="space-y-3">
+            <label class="text-xs font-bold uppercase tracking-wider text-slate-300">Selecciona tu Mood & Tono</label>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <button onclick="setARShade('#B98A79', 'Súper-neutral')" data-shade="Súper-neutral" aria-pressed="true" class="ar-on ring-2 ring-pinky bg-pinky/20 p-3 rounded-2xl glass-dark hover:scale-105 transition-transform flex flex-col items-center gap-2">
+                <span class="w-7 h-7 rounded-full bg-[#B98A79] shadow-lg ring-2 ring-white/30"></span>
+                <span class="text-[10px] font-bold text-slate-200 text-center">Súper-neutral</span>
+                <span class="text-[10px] text-pinky">RD$600</span>
+              </button>
+
+              <button onclick="setARShade('#E8D3B7', 'Crystal Baller')" data-shade="Crystal Baller" aria-pressed="false" class="p-3 rounded-2xl glass-dark hover:scale-105 transition-transform flex flex-col items-center gap-2">
+                <span class="w-7 h-7 rounded-full bg-[#E8D3B7] shadow-lg ring-2 ring-white/40"></span>
+                <span class="text-[10px] font-bold text-slate-200 text-center">Crystal Baller</span>
+                <span class="text-[10px] text-pinky">RD$600</span>
+              </button>
+
+              <button onclick="setARShade('#B96F91', 'Piggy Bank')" data-shade="Piggy Bank" aria-pressed="false" class="p-3 rounded-2xl glass-dark hover:scale-105 transition-transform flex flex-col items-center gap-2">
+                <span class="w-7 h-7 rounded-full bg-[#B96F91] shadow-lg ring-2 ring-white/30"></span>
+                <span class="text-[10px] font-bold text-slate-200 text-center">Piggy Bank</span>
+                <span class="text-[10px] text-pinky">RD$600</span>
+              </button>
+
+              <button onclick="setARShade('#E7A8B8', 'Candy Coded')" data-shade="Candy Coded" aria-pressed="false" class="p-3 rounded-2xl glass-dark hover:scale-105 transition-transform flex flex-col items-center gap-2">
+                <span class="w-7 h-7 rounded-full bg-[#E7A8B8] shadow-lg ring-2 ring-white/30"></span>
+                <span class="text-[10px] font-bold text-slate-200 text-center">Candy Coded</span>
+                <span class="text-[10px] text-pinky">RD$600</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between">
+            <div>
+              <p id="shade-title" class="text-xs font-bold text-pinky">Tono: Súper-neutral</p>
+              <p class="text-[11px] text-slate-400">Glow Reviver Lip Oil · e.l.f. Cosmetics</p>
+            </div>
+            <button onclick="addARShade()" aria-label="Añadir este tono al carrito" class="px-4 py-2.5 rounded-full bg-pinky text-ink font-bold text-xs hover:bg-white transition-colors">RD$600 +</button>
+          </div>
+          <button onclick="addARShade()" class="w-full py-3.5 rounded-full bg-pinky text-ink font-bold text-xs uppercase tracking-widest hover:bg-white transition-colors">Añadir este tono a mi beauty bag +</button>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- IXM.GIRL BEAUTY TIPS -->
+  <section id="beauty-tips" class="py-24 px-6 sm:px-12 bg-cream text-ink border-t border-line">
+    <div class="max-w-7xl mx-auto">
+      <div class="max-w-2xl mx-auto text-center mb-12">
+        <span class="text-xs font-bold uppercase tracking-[.24em] text-plum">The ixm.girl edit</span>
+        <h2 class="font-serif text-4xl sm:text-5xl font-medium mt-3">Beauty Tips</h2>
+        <p class="text-muted text-sm sm:text-base mt-4 leading-relaxed">Pequeños detalles, mejores resultados. Inspírate, experimenta y disfruta tu propia forma de expresar la belleza.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <article class="rounded-3xl p-6 sm:p-7 bg-white border border-line shadow-sm">
+          <span class="text-xs uppercase tracking-widest text-plum">01 · Preparación</span>
+          <h3 class="font-serif text-2xl mt-4 mb-3">Prepara tu piel</h3>
+          <p class="text-sm text-muted leading-relaxed">Comienza con la piel limpia e hidratada. Deja que tu crema se absorba antes de aplicar la base para conseguir un acabado más uniforme.</p>
+        </article>
+        <article class="rounded-3xl p-6 sm:p-7 bg-[#F1E7DE] border border-[#E5D8CC] shadow-sm">
+          <span class="text-xs uppercase tracking-widest text-plum">02 · Acabado</span>
+          <h3 class="font-serif text-2xl mt-4 mb-3">Menos puede ser más</h3>
+          <p class="text-sm text-[#74665D] leading-relaxed">Aplica la base en capas ligeras y añade producto solo donde lo necesites. Difumina los bordes para integrar el maquillaje con naturalidad.</p>
+        </article>
+        <article class="rounded-3xl p-6 sm:p-7 bg-white border border-line shadow-sm">
+          <span class="text-xs uppercase tracking-widest text-plum">03 · Color</span>
+          <h3 class="font-serif text-2xl mt-4 mb-3">Combina gloss & blush</h3>
+          <p class="text-sm text-muted leading-relaxed">Repite la misma familia de tonos en labios y mejillas para un look armonioso. Un gloss transparente también equilibra un rubor más protagonista.</p>
+        </article>
+        <article class="rounded-3xl p-6 sm:p-7 bg-[#E9E1D8] border border-[#DCD0C4] shadow-sm">
+          <span class="text-xs uppercase tracking-widest text-plum">04 · Cuidado</span>
+          <h3 class="font-serif text-2xl mt-4 mb-3">Cuida tus favoritos</h3>
+          <p class="text-sm text-[#74665D] leading-relaxed">Mantén tus productos bien cerrados, evita compartir aplicadores y respeta las indicaciones de conservación y el periodo de uso de cada envase.</p>
+        </article>
+      </div>
+      <div class="mt-8 rounded-3xl bg-[#2D211C] text-[#FFFAF7] px-7 py-8 sm:px-10 sm:py-9 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <span class="text-[10px] uppercase tracking-[.24em] text-[#D7BDAA]">A little reminder</span>
+          <p class="font-serif text-2xl sm:text-3xl mt-2">Tu estilo, tus reglas.</p>
+          <p class="text-sm text-[#D8CCC4] mt-2">Prueba, juega con los tonos y quédate con lo que te hace sentir bien.</p>
+        </div>
+        <a href="#shop" class="inline-flex items-center justify-center rounded-full border border-[#D7BDAA]/60 px-6 py-3 text-xs font-semibold tracking-wide hover:bg-white/10 transition">EXPLORAR PRODUCTOS</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- GLOW SLIDER: BEFORE & AFTER REAL SKIN COMPARISON -->
+  <section id="glow-lab" class="py-24 px-6 sm:px-12 bg-gradient-to-b from-cream via-[#FFF2F5] to-cream border-t border-line">
+    <div class="max-w-7xl mx-auto">
+      
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <span class="text-xs font-bold uppercase tracking-widest text-plum">Glow Lab · Ilustrativo</span>
+        <h2 class="font-serif text-4xl sm:text-6xl font-medium mt-1">El Efecto ixm.girl</h2>
+        <p class="text-muted text-xs sm:text-sm mt-3">Mueve el deslizador para ver el antes y el después de un look glow. Imágenes ilustrativas; los resultados varían en cada persona.</p>
+      </div>
+
+      <div class="max-w-5xl mx-auto glass-card rounded-3xl p-4 sm:p-6 shadow-2xl border border-line grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
+        <div id="ba-container" class="relative w-full h-[380px] sm:h-[480px] rounded-2xl overflow-hidden select-none bg-[#f8e8ef]" style="--ba-split:50%; touch-action:pan-y;">
+          <!-- DESPUÉS: misma foto, con brillo y color -->
+          <img src="images/efecto-despues.webp" alt="Después: piel luminosa y labios hidratados" draggable="false" class="ba-photo absolute inset-0 w-full h-full pointer-events-none" style="object-fit:cover; object-position:center 40%;">
+          <div class="absolute bottom-5 right-4 z-10 bg-white/90 backdrop-blur-md px-3 py-2 rounded-xl text-xs font-bold text-ink shadow-md pointer-events-none">✨ Después</div>
+
+          <!-- ANTES: misma foto, mismo encuadre, tono apagado -->
+          <div id="ba-before-layer" class="absolute inset-0 border-r-2 border-pinky pointer-events-none" style="clip-path:inset(0 50% 0 0);">
+            <img src="images/efecto-antes.webp" alt="Antes: piel al natural" draggable="false" class="ba-photo absolute inset-0 w-full h-full" style="object-fit:cover; object-position:center 40%;">
+            <div class="absolute bottom-5 left-4 z-10 bg-black/80 text-white backdrop-blur-md px-3 py-2 rounded-xl text-xs font-bold shadow-md">Antes</div>
+          </div>
+
+          <div id="ba-handle" class="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-1 bg-pinky flex items-center justify-center pointer-events-none z-20">
+            <div class="w-8 h-8 rounded-full bg-pinky text-white flex items-center justify-center shadow-xl border-2 border-white"><i data-lucide="chevrons-left-right" class="w-4 h-4"></i></div>
+          </div>
+          <!-- Control nativo: funciona con mouse, dedo y teclado -->
+          <input id="ba-range" type="range" min="0" max="100" value="50" aria-label="Comparar antes y después" class="absolute inset-0 z-30 w-full h-full opacity-0 cursor-ew-resize" style="touch-action:pan-y;">
+        </div>
+
+        <!-- Producto que se vende (se llena desde el catálogo) -->
+        <div class="p-4 sm:p-6 space-y-4 text-center lg:text-left">
+          <span class="text-[10px] font-bold uppercase tracking-widest text-pinky">Para tu glow</span>
+          <div class="h-48 rounded-2xl bg-[#F7EDF0] flex items-center justify-center overflow-hidden">
+            <img id="ba-prod-img" src="" alt="" class="product-catalog-image h-full w-full object-contain p-4">
+          </div>
+          <h3 id="ba-prod-name" class="font-serif text-2xl font-medium text-ink"></h3>
+          <p id="ba-prod-desc" class="text-xs text-muted leading-relaxed"></p>
+          <div class="flex items-center justify-center lg:justify-start gap-4">
+            <span id="ba-prod-price" class="font-bold text-ink"></span>
+            <button id="ba-prod-btn" class="px-6 py-3 rounded-full bg-ink text-white font-bold text-[10px] uppercase tracking-widest hover:bg-plum transition-colors">Añadir a mi beauty bag +</button>
+          </div>
+          <p class="text-[10px] text-muted leading-relaxed">Imágenes ilustrativas. Los resultados varían en cada persona.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- CATEGORIES DISCOVERY -->
+  <section id="categories" class="py-24 px-6 sm:px-12 bg-cream">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-plum">PICK YOUR MOOD</span>
+          <h2 class="font-serif text-4xl sm:text-6xl font-medium mt-1">¿Qué se te antoja<br><em class="text-pinky italic font-normal">descubrir hoy?</em></h2>
+        </div>
+        <p class="text-muted text-xs sm:text-sm max-w-xs leading-relaxed">
+          Un espacio para encontrar eso que no sabías que necesitabas. Explora, juega y elige lo que va contigo.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <div role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="setFilter('Maquillaje')" class="group relative h-80 rounded-3xl overflow-hidden cursor-pointer shadow-lg">
+          <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=700&q=85" alt="Maquillaje" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent"></div>
+          <div class="absolute bottom-6 left-6 text-white">
+            <span class="text-[9px] font-bold tracking-widest uppercase text-pinky">COLOR YOUR WORLD</span>
+            <h3 class="font-serif text-2xl font-medium">Maquillaje</h3>
+          </div>
+          <span class="absolute bottom-6 right-6 text-white group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">↗</span>
+        </div>
+
+        <div role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="setFilter('Skincare')" class="group relative h-80 rounded-3xl overflow-hidden cursor-pointer shadow-lg">
+          <img src="https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&w=700&q=85" alt="Skincare" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent"></div>
+          <div class="absolute bottom-6 left-6 text-white">
+            <span class="text-[9px] font-bold tracking-widest uppercase text-limeAccent">SKIN FIRST</span>
+            <h3 class="font-serif text-2xl font-medium">Skincare</h3>
+          </div>
+          <span class="absolute bottom-6 right-6 text-white group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">↗</span>
+        </div>
+
+        <div role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="setFilter('Cuidado y fragancias')" class="group relative h-80 rounded-3xl overflow-hidden cursor-pointer shadow-lg">
+          <img src="https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?auto=format&fit=crop&w=700&q=85" alt="Cremas" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent"></div>
+          <div class="absolute bottom-6 left-6 text-white">
+            <span class="text-[9px] font-bold tracking-widest uppercase text-pinky">SOFTNESS CLUB</span>
+            <h3 class="font-serif text-2xl font-medium">Cremas</h3>
+          </div>
+          <span class="absolute bottom-6 right-6 text-white group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">↗</span>
+        </div>
+
+        <div role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="setFilter('Accesorios')" class="group relative h-80 rounded-3xl overflow-hidden cursor-pointer shadow-lg">
+          <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?auto=format&fit=crop&w=700&q=85" alt="Accesorios" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+          <div class="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent"></div>
+          <div class="absolute bottom-6 left-6 text-white">
+            <span class="text-[9px] font-bold tracking-widest uppercase text-limeAccent">THE LITTLE EXTRAS</span>
+            <h3 class="font-serif text-2xl font-medium">Accesorios</h3>
+          </div>
+          <span class="absolute bottom-6 right-6 text-white group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">↗</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- FEATURE ESSENCE BANNER -->
+  <section id="story" class="py-20 bg-[#F7E9EC] grid grid-cols-1 lg:grid-cols-2 items-center overflow-hidden">
+    <div class="h-96 lg:h-full min-h-[420px] relative">
+      <img src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?auto=format&fit=crop&w=1000&q=85" alt="Ritual ixm.girl" class="w-full h-full object-cover">
+    </div>
+    <div class="p-10 sm:p-16 lg:p-20 space-y-6">
+      <span class="text-xs font-bold uppercase tracking-widest text-plum">A MOMENT THAT'S ALL YOURS</span>
+      <h2 class="font-serif text-4xl sm:text-6xl font-medium text-ink leading-tight">
+        Tu rutina.<br>Tu espacio.<br><em class="text-pinky italic font-normal">Tu glow.</em>
+      </h2>
+      <p class="text-muted text-xs sm:text-sm leading-relaxed max-w-md">
+        Entre tantas cosas del día, regálate unos minutos. Una crema, tu skincare favorito, ese detalle que te hace sonreír. No es vanidad: es disfrutar de ti.
+      </p>
+      <a href="#shop" class="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-ink text-white font-bold text-xs uppercase tracking-widest hover:bg-plum transition-all shadow-lg">
+        Encuentra tu ritual <span>↗</span>
+      </a>
+    </div>
+  </section>
+
+
+  <!-- CATALOG SHOP SECTION WITH REAL TIME SEARCH & FILTERS -->
+  <section id="shop" class="py-24 px-6 sm:px-12 bg-white">
+    <div class="max-w-7xl mx-auto">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-plum">CURATED WITH LOVE</span>
+          <h2 class="font-serif text-4xl sm:text-6xl font-medium mt-1">Pequeños favoritos.<br><em class="text-pinky italic font-normal">Grandes obsesiones.</em></h2>
+        </div>
+        <p class="text-muted text-xs sm:text-sm max-w-xs leading-relaxed">
+          Tus favoritos de maquillaje, cuidado y fragancias, con precios en pesos dominicanos.
+        </p>
+      </div>
+
+      <!-- Filters & Search Toolbar -->
+      <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-4 mb-10 pb-6 border-b border-line">
+        <div class="flex flex-wrap gap-2">
+          <button onclick="setFilter('Todos', this)" data-cat="Todos" class="filter-btn px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider bg-ink text-white">Todo</button>
+          <button onclick="setFilter('Maquillaje', this)" data-cat="Maquillaje" class="filter-btn px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider bg-cream text-muted border border-line hover:border-ink">Maquillaje</button>
+          <button onclick="setFilter('Skincare', this)" data-cat="Skincare" class="filter-btn px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider bg-cream text-muted border border-line hover:border-ink">Skincare</button>
+          <button onclick="setFilter('Cuidado y fragancias', this)" data-cat="Cuidado y fragancias" class="filter-btn px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider bg-cream text-muted border border-line hover:border-ink">Cuidado & fragancias</button>
+        </div>
+
+        <div class="relative w-full sm:w-64">
+          <input type="text" id="search-input" oninput="renderProducts()" placeholder="Busca tu próximo favorito..." class="w-full px-4 py-2.5 rounded-full bg-cream border border-line text-xs focus:outline-none focus:border-pinky">
+          <i data-lucide="search" class="w-4 h-4 text-muted absolute right-3.5 top-3"></i>
+        </div>
+      </div>
+
+      <div id="filter-note" class="hidden mb-6 items-center justify-between gap-4 px-5 py-3 rounded-2xl bg-pale border border-pinky/40 text-xs font-bold text-plum"></div>
+
+      <!-- Products Grid -->
+      <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- Populated via Javascript -->
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- QUOTE STATEMENT -->
+  <section class="py-24 px-6 bg-ink text-white text-center relative overflow-hidden">
+    <div class="max-w-4xl mx-auto space-y-6 relative z-10">
+      <span class="text-xs font-bold uppercase tracking-widest text-pinky">A NOTE TO REMEMBER</span>
+      <h2 class="font-serif italic text-3xl sm:text-5xl leading-tight text-cream">
+        “No tienes que esperar una ocasión especial para sentirte especial.”
+      </h2>
+      <p class="text-[10px] tracking-[0.3em] uppercase text-pinky/80 font-bold">
+        BE YOUR OWN KIND OF BEAUTIFUL · IXM.GIRL
+      </p>
+    </div>
+  </section>
+
+
+  <!-- BEAUTY MOOD QUIZ SECTION -->
+  <section class="py-24 px-6 sm:px-12 bg-[#F8EEE9]">
+    <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      
+      <div class="lg:col-span-5 space-y-4">
+        <span class="text-xs font-bold uppercase tracking-widest text-plum">LET'S FIND YOUR GLOW</span>
+        <h2 class="font-serif text-4xl sm:text-5xl font-medium leading-tight">¿Cuál es tu<br><em class="text-pinky italic">beauty mood?</em></h2>
+        <p class="text-muted text-xs sm:text-sm leading-relaxed">
+          Responde con tu vibra de hoy y te sugerimos por dónde empezar. Un toque interactivo para hacer tu visita más divertida.
+        </p>
+      </div>
+
+      <div class="lg:col-span-7 bg-white p-8 rounded-3xl shadow-xl border border-line space-y-6">
+        <h3 class="font-serif text-2xl text-ink">Hoy quiero sentirme...</h3>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <button onclick="pickMood(this, 'Fresh & natural', 'Empieza por skincare ligero y un toque de hidratación. Tu mood es una piel fresca y luminosa.')" class="mood-btn text-left p-4 rounded-2xl border border-line hover:border-pinky hover:bg-pale transition-all text-xs font-bold text-ink">
+            🌿 Fresh & natural
+          </button>
+
+          <button onclick="pickMood(this, 'Soft glam', 'Explora maquillaje suave: un toque de rubor, lip gloss y ese acabado sutil que te encanta.')" class="mood-btn text-left p-4 rounded-2xl border border-line hover:border-pinky hover:bg-pale transition-all text-xs font-bold text-ink">
+            💗 Soft glam
+          </button>
+
+          <button onclick="pickMood(this, 'Self-care mode', 'Tu momento pide cremas y una rutina relajante. Baja el ritmo y consiéntete.')" class="mood-btn text-left p-4 rounded-2xl border border-line hover:border-pinky hover:bg-pale transition-all text-xs font-bold text-ink">
+            🫧 Self-care mode
+          </button>
+
+          <button onclick="pickMood(this, 'Main character', 'Atrévete a probar algo nuevo: tonos vibrantes, accesorios y detalles que hablen de ti.')" class="mood-btn text-left p-4 rounded-2xl border border-line hover:border-pinky hover:bg-pale transition-all text-xs font-bold text-ink">
+            ✨ Main character
+          </button>
+        </div>
+
+        <div id="quiz-result" class="hidden p-4 rounded-2xl bg-pale border border-pinky/40 text-xs leading-relaxed text-ink"></div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- NEWSLETTER -->
+  <section class="py-20 px-6 bg-[#F2DCE2] text-center">
+    <div class="max-w-md mx-auto space-y-4">
+      <span class="text-xs font-bold uppercase tracking-widest text-plum">THE IXM BEAUTY LETTER</span>
+      <h2 class="font-serif text-4xl font-medium text-ink">Un poquito de glow<br>nunca está de más.</h2>
+      <p class="text-muted text-xs leading-relaxed">Novedades, favoritos y sorpresas bonitas. Directo a tu correo.</p>
+      
+      <form onsubmit="event.preventDefault(); toast('¡Gracias! Te has unido a ixm.girl ♡'); this.reset()" class="flex gap-0 pt-2">
+        <input type="email" placeholder="Tu correo electrónico" required class="w-full px-5 py-3 rounded-l-full bg-white text-xs border border-line focus:outline-none">
+        <button type="submit" class="px-6 py-3 rounded-r-full bg-ink text-white font-bold text-xs uppercase tracking-wider hover:bg-plum transition-colors whitespace-nowrap">
+          Quiero recibirlo ↗
+        </button>
+      </form>
+    </div>
+  </section>
+
+
+  <!-- FOOTER -->
+  <footer class="bg-[#21191E] text-white py-16 px-6 sm:px-12 text-xs">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10 border-b border-white/10 pb-12">
+      
+      <div class="space-y-3">
+        <span class="font-serif font-bold text-2xl tracking-tight text-white">ixm<i class="text-pinky font-normal">.</i>girl</span>
+        <p class="text-slate-400 leading-relaxed text-xs">
+          Beauty, but make it you. Un espacio para descubrir, expresarte y disfrutar cada versión de ti.
+        </p>
+      </div>
+
+      <div>
+        <b class="text-pinky uppercase tracking-widest text-[10px] block mb-4">Explora</b>
+        <ul class="space-y-2 text-slate-300">
+          <li><a href="#categories" class="hover:text-pinky">Categorías</a></li>
+          <li><a href="#shop" class="hover:text-pinky">Tienda Completa</a></li>
+          <li><a href="#story" class="hover:text-pinky">Nuestra Esencia</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <b class="text-pinky uppercase tracking-widest text-[10px] block mb-4">Experiencias</b>
+        <ul class="space-y-2 text-slate-300">
+          <li><a href="#ar-studio" class="hover:text-pinky">AR Mirror Studio</a></li>
+          <li><a href="#scrolly-section" class="hover:text-pinky">Shea Better 24H</a></li>
+          <li><a href="#glow-lab" class="hover:text-pinky">Glow Lab Antes/Después</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <b class="text-pinky uppercase tracking-widest text-[10px] block mb-4">Encuéntranos</b>
+        <ul class="space-y-2 text-slate-300">
+          <li><a href="https://www.instagram.com/ixm.girl/" target="_blank" rel="noopener" class="hover:text-pinky">Instagram ↗</a></li>
+          <li><a href="https://wa.me/18294807825" target="_blank" rel="noopener" class="hover:text-pinky">WhatsApp ↗</a></li>
+          <li><a href="https://wa.me/18294807825?text=Hola%2C%20ixm.girl" target="_blank" rel="noopener" class="hover:text-pinky">Contacto</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="max-w-7xl mx-auto pt-6 flex flex-col sm:flex-row justify-between text-slate-500 text-[10px]">
+      <span>© 2026 ixm.girl · Beauty Studio · República Dominicana</span>
+      <span>HECHO CON ♡ PARA TI</span>
+    </div>
+  </footer>
+
+
+  <!-- BEAUTY BAG CART SLIDE-OVER PANEL -->
+  <div id="cart-overlay" onclick="toggleCart(false)" class="hidden fixed inset-0 bg-black/40 z-40"></div>
+  <div id="cart-panel" role="dialog" aria-label="Tu beauty bag" aria-hidden="true" class="fixed inset-y-0 right-0 w-full max-w-md bg-white z-50 transform translate-x-full transition-transform duration-400 p-6 flex flex-col justify-between shadow-2xl border-l border-line">
+    
+    <div>
+      <div class="flex items-center justify-between border-b border-line pb-4">
+        <h3 class="font-serif text-2xl font-medium text-ink">Tu beauty bag ♡</h3>
+        <button onclick="toggleCart(false)" aria-label="Cerrar beauty bag" class="p-2 text-muted hover:text-ink text-2xl">&times;</button>
+      </div>
+
+      <div id="cart-items" class="py-6 space-y-4 max-h-[60vh] overflow-y-auto">
+        <p class="text-xs text-muted">Todavía no tienes favoritos en tu bolsa.</p>
+      </div>
+    </div>
+
+    <div class="border-t border-line pt-4 space-y-4">
+      <div class="flex justify-between items-center text-sm font-bold">
+        <span>Total de tu selección</span>
+        <span id="cart-total" class="text-lg text-ink font-serif">RD$ 0</span>
+      </div>
+      <p class="text-[10px] text-muted">El envío y el pago se coordinan contigo por WhatsApp.</p>
+      <button id="whatsapp-order" onclick="sendCartToWhatsApp()" class="w-full py-4 rounded-full bg-ink text-white font-bold text-xs uppercase tracking-widest hover:bg-plum transition-all">
+        Pedir por WhatsApp ↗
+      </button>
+    </div>
+
+  </div>
+
+
+  <!-- BEAUTY QUIZ MODAL -->
+  <div id="quiz-modal" role="dialog" aria-modal="true" aria-label="Beauty Match" onclick="if(event.target===this)closeQuizModal()" class="fixed inset-0 z-50 hidden items-center justify-center p-6 bg-black/60 backdrop-blur-sm">
+    <div class="bg-white max-w-lg w-full rounded-3xl p-8 border border-line relative shadow-2xl space-y-6">
+      <button onclick="closeQuizModal()" aria-label="Cerrar" class="absolute top-4 right-4 p-2 text-muted hover:text-ink text-xl">&times;</button>
+      
+      <span class="text-xs font-bold uppercase tracking-widest text-pinky block">Beauty Match ixm.girl</span>
+      <h3 class="font-serif text-3xl font-medium text-ink">¿Cuál es tu meta principal hoy?</h3>
+
+      <div class="space-y-3">
+        <button onclick="finishModalQuiz('Glow Inmediato')" class="w-full p-4 rounded-2xl bg-cream border border-line hover:border-pinky text-left text-xs font-bold text-ink flex items-center justify-between">
+          <span>✨ Máxima Luminosidad e Hidratación</span>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-pinky"></i>
+        </button>
+
+        <button onclick="finishModalQuiz('Piel Suave')" class="w-full p-4 rounded-2xl bg-cream border border-line hover:border-pinky text-left text-xs font-bold text-ink flex items-center justify-between">
+          <span>☁️ Textura Suave & Poros Mínimos</span>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-pinky"></i>
+        </button>
+
+        <button onclick="finishModalQuiz('Color & Vibe')" class="w-full p-4 rounded-2xl bg-cream border border-line hover:border-pinky text-left text-xs font-bold text-ink flex items-center justify-between">
+          <span>💄 Toque de Color & Maquillaje Fresco</span>
+          <i data-lucide="chevron-right" class="w-4 h-4 text-pinky"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-ink text-white px-6 py-3 rounded-full text-xs font-bold shadow-2xl pointer-events-none opacity-0 transition-all duration-300 z-50"></div>
+
+
+  <!-- MediaPipe Face Mesh: required for lip landmark tracking -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh@0.4.1633559619/face_mesh.js" crossorigin="anonymous"></script>
+
+  <!-- JAVASCRIPT LOGIC ENGINE -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    /* -------------------------------------------------------------------------- */
+    /* 1. PRODUCTS DATA WITH HIGH QUALITY REAL UNSPLASH PHOTOS                    */
+    /* -------------------------------------------------------------------------- */
+    let products = [
+      {
+            "id": 1,
+            "name": "Maybelline Lifter Gloss",
+            "cat": "Maquillaje",
+            "desc": "Brillo hidratante para un acabado luminoso en los labios.",
+            "price": 600,
+            "img": "https://i.ibb.co/xSLfPdw9/IMG-0178.webp",
+            "tag": ""
+      },
+      {
+            "id": 2,
+            "name": "Maybelline Super Stay Vinyl Ink",
+            "cat": "Maquillaje",
+            "desc": "Color intenso con acabado vinilo.",
+            "price": 600,
+            "img": "https://i.ibb.co/KpCy5Fdc/IMG-0179.jpg",
+            "tag": ""
+      },
+      {
+            "id": 3,
+            "name": "Fenty Beauty Gloss Bomb",
+            "cat": "Maquillaje",
+            "desc": "Gloss icónico para un brillo efecto volumen.",
+            "price": 1200,
+            "img": "https://i.ibb.co/dsBVR86t/IMG-0187.jpg",
+            "tag": ""
+      },
+      {
+            "id": 4,
+            "name": "Dior Addict Lip Glow / Gloss",
+            "cat": "Maquillaje",
+            "desc": "Un toque de color y brillo para los labios.",
+            "price": 1800,
+            "img": "images/dior-addict-lip-gloss.webp",
+            "tag": ""
+      },
+      {
+            "id": 5,
+            "name": "Rare Beauty Soft Pinch Lip Oil",
+            "cat": "Maquillaje",
+            "desc": "Aceite labial con color y acabado jugoso.",
+            "price": 1700,
+            "img": "images/rare-beauty-soft-pinch-lip-oil.webp",
+            "tag": ""
+      },
+      {
+            "id": 6,
+            "name": "e.l.f. Glow Reviver Lip Oil",
+            "cat": "Maquillaje",
+            "desc": "Aceite labial ligero e hidratante con brillo luminoso. Tonos: Súper-neutral, Crystal Baller, Piggy Bank y Candy Coded.",
+            "price": 600,
+            "img": "https://i.ibb.co/BK6DNsd3/IMG-0183.jpg",
+            "tag": ""
+      },
+      {
+            "id": 7,
+            "name": "Maybelline Instant Age Rewind 4-in-1",
+            "cat": "Maquillaje",
+            "desc": "Corrector multiuso para una apariencia fresca.",
+            "price": 550,
+            "img": "https://distausa.com/cdn/shop/files/61cK99Wvc0L_0e1fa31d-dc98-485d-8af5-6f6b0e4bc4a8_1280x.jpg?v=1773662699",
+            "tag": ""
+      },
+      {
+            "id": 8,
+            "name": "e.l.f. Hydrating Camo Concealer",
+            "cat": "Maquillaje",
+            "desc": "Corrector hidratante de cobertura.",
+            "price": 750,
+            "img": "https://media.ulta.com/i/ulta/2558508",
+            "tag": ""
+      },
+      {
+            "id": 9,
+            "name": "Too Faced Born This Way Concealer",
+            "cat": "Maquillaje",
+            "desc": "Corrector de cobertura natural.",
+            "price": 1350,
+            "img": "https://i5.walmartimages.com/seo/Too-Faced-Born-This-Way-Super-Coverage-Multi-Use-Longwear-Concealer-Pearl_c811b576-4362-4025-ac1a-a619809c4a3c.54ad0ad9a5f72693d681efcb3a617c69.jpeg",
+            "tag": ""
+      },
+      {
+            "id": 10,
+            "name": "Too Faced Born This Way Foundation",
+            "cat": "Maquillaje",
+            "desc": "Base de maquillaje para un acabado natural.",
+            "price": 1650,
+            "img": "images/too-faced-born-this-way-foundation.webp",
+            "tag": ""
+      },
+      {
+            "id": 11,
+            "name": "Too Faced Born This Way Soft Matte",
+            "cat": "Maquillaje",
+            "desc": "Base de acabado mate suave.",
+            "price": 1600,
+            "img": "https://m.toofaced.com/media/export/cms/products/1000x1000/2f_sku_183656_1000x1000_0.jpg",
+            "tag": ""
+      },
+      {
+            "id": 12,
+            "name": "e.l.f. Camo Liquid Blush",
+            "cat": "Maquillaje",
+            "desc": "Rubor líquido para un toque de color.",
+            "price": 650,
+            "img": "https://images.matas.dk/trs/w1300/encode/609332846395_4_20241119183020.jpg",
+            "tag": ""
+      },
+      {
+            "id": 13,
+            "name": "Pixi On-the-Glow Blush Stick",
+            "cat": "Maquillaje",
+            "desc": "Rubor en barra práctico y fácil de aplicar.",
+            "price": 700,
+            "img": "https://media.ulta.com/i/ulta/2650662_alt01?fmt=auto&h=800&w=800",
+            "tag": ""
+      },
+      {
+            "id": 14,
+            "name": "CeraVe Limpiador Hidratante",
+            "cat": "Skincare",
+            "desc": "Limpieza suave para la rutina diaria.",
+            "price": 1000,
+            "img": "images/cerave-limpiador-hidratante.webp",
+            "tag": ""
+      },
+      {
+            "id": 15,
+            "name": "Sol de Janeiro Cheirosa #62",
+            "cat": "Cuidado y fragancias",
+            "desc": "Bruma corporal con aroma cálido y envolvente.",
+            "price": 1600,
+            "img": "images/sol-de-janeiro-cheirosa-62.webp",
+            "tag": ""
+      },
+      {
+            "id": 16,
+            "name": "Sol de Janeiro Cheirosa #68",
+            "cat": "Cuidado y fragancias",
+            "desc": "Bruma corporal con notas frescas y florales.",
+            "price": 1600,
+            "img": "https://www.nk.se/globalassets/810912032248.jpg",
+            "tag": ""
+      },
+      {
+            "id": 17,
+            "name": "Sol de Janeiro Rio Radiance Mist",
+            "cat": "Cuidado y fragancias",
+            "desc": "Bruma corporal con inspiración veraniega.",
+            "price": 1000,
+            "img": "https://i.ibb.co/nNT4nmnT/IMG-0185.jpg",
+            "tag": ""
+      },
+      {
+            "id": 18,
+            "name": "Daise Body Mist",
+            "cat": "Cuidado y fragancias",
+            "desc": "Bruma corporal para completar tu rutina.",
+            "price": 1200,
+            "img": "https://www.bigw.com.au/medias/sys_master/images/images/ha0/h2c/155019346083870.jpg",
+            "tag": ""
+      }
+];
+
+    let activeFilter = 'Todos';
+    let cart = [];
+
+    function renderProducts() {
+      const grid = document.getElementById('products-grid');
+      const query = document.getElementById('search-input').value.toLowerCase();
+
+      const filtered = products.filter(p => {
+        const matchesCategory = (activeFilter === 'Todos' || (Array.isArray(activeFilter) ? activeFilter.includes(p.cat) : p.cat === activeFilter));
+        const matchesQuery = p.name.toLowerCase().includes(query) || p.desc.toLowerCase().includes(query);
+        return matchesCategory && matchesQuery;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div class="col-span-full text-center py-12 text-muted text-xs">${activeFilter === 'Accesorios' ? 'Los accesorios llegan pronto ✳ Escríbenos por WhatsApp y te contamos.' : 'No encontramos productos en esta búsqueda.'}</div>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(p => `
+        <article class="group glass-card rounded-3xl overflow-hidden border border-line flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+          <div class="relative h-64 bg-[#F7EDF0] overflow-hidden">
+            <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.onerror=null;this.style.opacity='.2'" class="product-catalog-image w-full h-full object-contain p-5 group-hover:scale-105 transition-transform duration-700">
+            ${p.disponible === false ? `<span class="absolute top-3 left-3 bg-ink text-white text-[8px] font-bold tracking-widest px-2.5 py-1 rounded-full uppercase">Agotado</span>` : (p.tag ? `<span class="absolute top-3 left-3 bg-white text-ink text-[8px] font-bold tracking-widest px-2.5 py-1 rounded-full uppercase">${p.tag}</span>` : '')}
+            
+            <button ${p.disponible === false ? 'disabled' : `onclick="addCart('${p.id}')"`} class="absolute bottom-3 left-3 right-3 bg-white text-ink py-3 rounded-full text-[9px] font-bold uppercase tracking-wider shadow-md transform translate-y-12 group-hover:translate-y-0 transition-transform duration-300 hover:bg-pinky hover:text-white">${p.disponible === false ? 'Agotado' : 'Añadir a mi beauty bag +'}</button>
+          </div>
+
+          <div class="p-5 space-y-2">
+            <span class="text-[9px] font-bold uppercase tracking-widest text-pinky">${p.cat}</span>
+            <h3 class="font-serif text-xl font-medium text-ink">${p.name}</h3>
+            <p class="text-xs text-muted leading-relaxed line-clamp-2">${p.desc}</p>
+            
+            <div class="flex items-center justify-between pt-3 border-t border-line">
+              <span class="font-bold text-sm text-ink">RD$ ${p.price.toLocaleString("es-DO")}</span>
+              <button onclick="toast('Añadido a tus favoritos ♡')" class="text-muted hover:text-pinky text-lg" aria-label="Favorito">♡</button>
+            </div>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function setFilter(cat, btnEl, label) {
+      activeFilter = cat;
+      const ON = 'filter-btn px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider bg-ink text-white';
+      const OFF = 'filter-btn px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider bg-cream text-muted border border-line hover:border-ink';
+      document.querySelectorAll('.filter-btn').forEach(b => { b.className = (typeof cat === 'string' && b.dataset.cat === cat) ? ON : OFF; });
+      if (!label && typeof cat === 'string' && cat !== 'Todos' && !document.querySelector('.filter-btn[data-cat="' + cat + '"]')) label = cat;
+      const note = document.getElementById('filter-note');
+      if (label) {
+        note.innerHTML = '<span>' + label + '</span><button onclick="setFilter(\'Todos\')" class="underline hover:text-pinky shrink-0">Ver todo ✕</button>';
+        note.classList.remove('hidden'); note.classList.add('flex');
+      } else {
+        note.classList.add('hidden'); note.classList.remove('flex');
+      }
+      renderProducts();
+      if (!btnEl) document.getElementById('shop').scrollIntoView({ behavior: 'smooth' });
+    }
+
+
+    /* -------------------------------------------------------------------------- */
+    /* 2. SHOPPING CART LOGIC                                                     */
+    /* -------------------------------------------------------------------------- */
+    const CART_KEY = 'ixm_cart_v1';
+    let currentARShadeName = 'Súper-neutral';
+
+    function saveCart() { try { localStorage.setItem(CART_KEY, JSON.stringify(cart)); } catch (e) {} }
+    function loadCart() {
+      try {
+        const raw = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
+        cart = raw.filter(i => i && i.qty > 0).map(i => {
+          const p = products.find(x => String(x.id) === String(i.id));
+          return p ? { ...p, qty: i.qty } : i;
+        });
+      } catch (e) { cart = []; }
+      updateCart();
+    }
+
+    function toggleCart(force) {
+      const panel = document.getElementById('cart-panel');
+      const ov = document.getElementById('cart-overlay');
+      const open = typeof force === 'boolean' ? force : panel.classList.contains('translate-x-full');
+      panel.classList.toggle('translate-x-full', !open);
+      ov.classList.toggle('hidden', !open);
+      panel.setAttribute('aria-hidden', String(!open));
+      document.body.style.overflow = open ? 'hidden' : '';
+    }
+
+    function addCart(id) {
+      const product = products.find(p => String(p.id) === String(id));
+      if (!product) return;
+      if (product.disponible === false) { toast('Este producto está agotado'); return; }
+      const existing = cart.find(c => String(c.id) === String(id));
+      if (existing) existing.qty++; else cart.push({ ...product, qty: 1 });
+      updateCart();
+      toast(`${product.name} añadido a tu beauty bag ♡`);
+    }
+
+    function addARShade() {
+      const name = currentARShadeName;
+      const id = 'ar-' + name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      const existing = cart.find(c => c.id === id);
+      if (existing) existing.qty++;
+      else cart.push({ id, name: `Glow Reviver Lip Oil — ${name}`, price: 600, img: document.getElementById('ar-avatar').getAttribute('src'), qty: 1 });
+      updateCart();
+      toast(`Lip Oil ${name} añadido a tu beauty bag ♡`);
+      if (window.matchMedia('(min-width: 1024px)').matches) toggleCart(true);
+    }
+
+    function changeQty(id, d) {
+      const item = cart.find(c => String(c.id) === String(id));
+      if (!item) return;
+      item.qty += d;
+      if (item.qty <= 0) cart = cart.filter(c => String(c.id) !== String(id));
+      updateCart();
+    }
+
+    function updateCart() {
+      saveCart();
+      const countEl = document.getElementById('count');
+      const itemsEl = document.getElementById('cart-items');
+      const totalEl = document.getElementById('cart-total');
+      const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+      const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+      countEl.innerText = totalQty;
+      totalEl.innerText = `RD$ ${totalPrice.toLocaleString("es-DO")}`;
+
+      if (cart.length === 0) {
+        itemsEl.innerHTML = `<p class="text-xs text-muted">Todavía no tienes favoritos en tu bolsa.</p>`;
+        return;
+      }
+
+      itemsEl.innerHTML = cart.map(item => `
+        <div class="flex items-center justify-between gap-3 p-3 rounded-2xl bg-cream border border-line">
+          <div class="flex items-center gap-3 min-w-0">
+            <img src="${item.img}" alt="" class="w-12 h-12 rounded-xl object-cover shrink-0">
+            <div class="min-w-0">
+              <b class="text-xs font-bold text-ink block">${item.name}</b>
+              <p class="text-[10px] text-muted">RD$ ${item.price.toLocaleString("es-DO")} c/u</p>
+              <div class="flex items-center gap-2 mt-1">
+                <button onclick="changeQty('${item.id}', -1)" aria-label="Quitar una unidad" class="w-6 h-6 rounded-full border border-line bg-white text-ink text-sm leading-none hover:border-pinky">−</button>
+                <span class="text-xs font-bold w-4 text-center">${item.qty}</span>
+                <button onclick="changeQty('${item.id}', 1)" aria-label="Añadir una unidad" class="w-6 h-6 rounded-full border border-line bg-white text-ink text-sm leading-none hover:border-pinky">+</button>
+              </div>
+            </div>
+          </div>
+          <div class="text-right shrink-0">
+            <span class="text-xs font-bold text-ink block">RD$ ${(item.qty * item.price).toLocaleString("es-DO")}</span>
+            <button onclick="removeCart('${item.id}')" class="text-[10px] text-pinky hover:underline">Quitar</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function removeCart(id) {
+      cart = cart.filter(c => String(c.id) !== String(id));
+      updateCart();
+    }
+
+    function sendCartToWhatsApp() {
+      if (cart.length === 0) {
+        toast('Agrega al menos un producto a tu beauty bag ♡');
+        return;
+      }
+      const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+      const lines = cart.map(item => `• ${item.name} — ${item.qty} × RD$ ${item.price.toLocaleString("es-DO")} = RD$ ${(item.qty * item.price).toLocaleString("es-DO")}`);
+      const message = `¡Hola, ixm.girl! Quiero realizar este pedido:\n\n${lines.join('\n')}\n\nTotal: RD$ ${totalPrice.toLocaleString("es-DO")}\n\n¿Me pueden ayudar a coordinar mi pedido?`;
+      const whatsappUrl = `https://api.whatsapp.com/send/?phone=%2B18294807825&text=${encodeURIComponent(message)}&type=phone_number&app_absent=0`;
+      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    }
+
+
+    /* -------------------------------------------------------------------------- */
+    /* 3. FLUID TAB INTERACTION FOR ELIXIR FORMULA                                */
+    /* -------------------------------------------------------------------------- */
+    const elixirData = {
+      1: {
+        tag: '✨ Hidratación 24H',
+        title: 'Shea Better™ Body Lotion',
+        desc: 'Loción corporal con 7 aceites nutritivos y mantecas para ayudar a suavizar y proteger la piel seca.',
+        color: '#E6A6B7'
+      },
+      2: {
+        tag: '💧 Hidratación Profunda',
+        title: '7 aceites nutritivos + mantecas',
+        desc: 'Penetra múltiples capas para infundir agua y lograr suavidad y elasticidad visible.',
+        color: '#D9EDC9'
+      },
+      3: {
+        tag: '🌸 Aroma',
+        title: 'Pomegranate Raspberry',
+        desc: 'Una fragancia frutal de granada y frambuesa que acompaña la rutina diaria de hidratación.',
+        color: '#FFFFFF'
+      }
+    };
+
+    function selectElixirTab(index) {
+      // Update Tab Styles
+      for (let i = 1; i <= 3; i++) {
+        const tab = document.getElementById(`elixir-tab-${i}`);
+        const indicator = tab.querySelector('span:last-child');
+        
+        if (i === index) {
+          tab.classList.remove('border-white/10', 'opacity-70');
+          tab.classList.add('border-pinky', 'opacity-100');
+          if (indicator) indicator.classList.remove('opacity-0');
+        } else {
+          tab.classList.add('border-white/10', 'opacity-70');
+          tab.classList.remove('border-pinky', 'opacity-100');
+          if (indicator) indicator.classList.add('opacity-0');
+        }
+      }
+
+      // Update Card Badge Content
+      const data = elixirData[index];
+      const badgeTag = document.getElementById('badge-tag');
+      const badgeTitle = document.getElementById('badge-title');
+      const badgeDesc = document.getElementById('badge-desc');
+
+      badgeTag.innerText = data.tag;
+      badgeTag.style.color = data.color;
+      badgeTitle.innerText = data.title;
+      badgeDesc.innerText = data.desc;
+    }
+
+
+    /* -------------------------------------------------------------------------- */
+    /* 4. AR MIRROR WEBCAM & SHADE SELECTOR                                       */
+    /* -------------------------------------------------------------------------- */
+    let isCamOn = false;
+    let faceMesh = null;
+    let selectedLipColor = '#B98A79';
+    let faceSendBusy = false;
+    const lipCanvas = document.getElementById('lip-tint-canvas');
+    const lipCtx = lipCanvas.getContext('2d');
+    const OUTER_LIPS = [61,185,40,39,37,0,267,269,270,409,291,375,321,405,314,17,84,181,91,146];
+    const INNER_LIPS = [78,191,80,81,82,13,312,311,310,415,308,324,318,402,317,14,87,178,88,95];
+
+    function resizeLipCanvas(w, h) {
+      if (lipCanvas.width !== w || lipCanvas.height !== h) {
+        lipCanvas.width = w; lipCanvas.height = h;
+      }
+    }
+
+    function drawLipPath(points, indices, mapPoint) {
+      lipCtx.beginPath();
+      indices.forEach((idx, i) => {
+        const pt = mapPoint(points[idx]);
+        if (i === 0) lipCtx.moveTo(pt.x, pt.y); else lipCtx.lineTo(pt.x, pt.y);
+      });
+      lipCtx.closePath();
+    }
+
+    function renderLipTint(results) {
+      const source = results.image;
+      const sourceW = source.videoWidth || source.naturalWidth || source.width;
+      const sourceH = source.videoHeight || source.naturalHeight || source.height;
+      const stage = lipCanvas.parentElement;
+      const stageW = stage.clientWidth;
+      const stageH = stage.clientHeight;
+      if (!sourceW || !sourceH || !stageW || !stageH) return;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      lipCanvas.width = Math.round(stageW * dpr);
+      lipCanvas.height = Math.round(stageH * dpr);
+      lipCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      lipCtx.clearRect(0, 0, stageW, stageH);
+      const face = results.multiFaceLandmarks && results.multiFaceLandmarks[0];
+      if (!face) { lipCtx.clearRect(0, 0, stageW, stageH); return; }
+      // Match object-fit:cover cropping; the live preview is mirrored with CSS.
+      const scale = Math.max(stageW / sourceW, stageH / sourceH);
+      const offsetX = (stageW - sourceW * scale) / 2;
+      const offsetY = (stageH - sourceH * scale) / 2;
+      const mirrored = isCamOn;
+      const mapPoint = pt => {
+        const nx = mirrored ? 1 - pt.x : pt.x;
+        return { x: nx * sourceW * scale + offsetX, y: pt.y * sourceH * scale + offsetY };
+      };
+      drawLipPath(face, OUTER_LIPS, mapPoint);
+      lipCtx.fillStyle = selectedLipColor;
+      lipCtx.globalAlpha = 0.42;
+      lipCtx.globalCompositeOperation = 'source-over';
+      lipCtx.fill();
+      lipCtx.globalAlpha = 1;
+      lipCtx.globalCompositeOperation = 'destination-out';
+      drawLipPath(face, INNER_LIPS, mapPoint);
+      lipCtx.fill();
+      lipCtx.globalCompositeOperation = 'source-over';
+    }
+
+    async function initFaceMesh() {
+      if (faceMesh) return faceMesh;
+      if (!window.FaceMesh) throw new Error('No se pudo cargar el seguimiento facial');
+      faceMesh = new FaceMesh({ locateFile: file => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}` });
+      faceMesh.setOptions({ maxNumFaces: 1, refineLandmarks: true, minDetectionConfidence: 0.55, minTrackingConfidence: 0.55 });
+      faceMesh.onResults(renderLipTint);
+      return faceMesh;
+    }
+
+    async function showSampleLipTint() {
+      const avatar = document.getElementById('ar-avatar');
+      if (!avatar.complete || !avatar.naturalWidth) {
+        await new Promise((resolve, reject) => {
+          const onLoad = () => { cleanup(); resolve(); };
+          const onError = () => { cleanup(); reject(new Error('No se pudo cargar la foto de la modelo')); };
+          const cleanup = () => { avatar.removeEventListener('load', onLoad); avatar.removeEventListener('error', onError); };
+          avatar.addEventListener('load', onLoad, { once: true });
+          avatar.addEventListener('error', onError, { once: true });
+        });
+      }
+      const mesh = await initFaceMesh();
+      await mesh.send({ image: avatar });
+    }
+
+    async function processLiveFrames() {
+      const video = document.getElementById('ar-webcam');
+      if (!isCamOn) return;
+      if (!faceSendBusy && video.readyState >= 2 && faceMesh) {
+        faceSendBusy = true;
+        try { await faceMesh.send({ image: video }); } catch (e) { console.warn('AR lip tracking:', e); }
+        faceSendBusy = false;
+      }
+      if (isCamOn) requestAnimationFrame(processLiveFrames);
+    }
+
+    async function toggleWebcam() {
+      const video = document.getElementById('ar-webcam');
+      const avatar = document.getElementById('ar-avatar');
+      const btn = document.getElementById('cam-btn');
+      if (!isCamOn) {
+        try {
+          if (!window.isSecureContext || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+            throw new Error('La cámara requiere HTTPS y permiso del navegador');
+          }
+          await initFaceMesh();
+          const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false });
+          video.srcObject = stream;
+          await video.play();
+          video.classList.remove('hidden'); avatar.classList.add('hidden');
+          btn.innerHTML = `<i data-lucide="camera-off" class="w-4 h-4 text-pinky"></i> Desactivar Cámara`;
+          isCamOn = true;
+          processLiveFrames();
+        } catch (e) {
+          console.error('ixm.girl AR:', e);
+          toast(e && e.message && e.message.includes('HTTPS') ? 'Abre la tienda desde su enlace HTTPS para usar la cámara.' : 'No se pudo iniciar el probador. Permite la cámara y vuelve a intentarlo.');
+        }
+      } else {
+        const stream = video.srcObject;
+        if (stream) stream.getTracks().forEach(t => t.stop());
+        video.srcObject = null;
+        video.classList.add('hidden'); avatar.classList.remove('hidden');
+        btn.innerHTML = `<i data-lucide="camera" class="w-4 h-4 text-pinky"></i> Activar Cámara en Vivo`;
+        isCamOn = false;
+        await showSampleLipTint();
+      }
+      lucide.createIcons();
+    }
+
+    function setARShade(hexColor, name) {
+      selectedLipColor = hexColor;
+      currentARShadeName = name;
+      document.querySelectorAll('[data-shade]').forEach(b => {
+        const on = b.dataset.shade === name;
+        b.classList.toggle('ring-2', on); b.classList.toggle('ring-pinky', on); b.classList.toggle('bg-pinky/20', on);
+        b.setAttribute('aria-pressed', String(on));
+      });
+      document.getElementById('shade-title').innerText = `Tono: ${name}`;
+      if (isCamOn) return;
+      showSampleLipTint().catch(e => console.warn('No se pudo aplicar el tono a la modelo:', e));
+    }
+
+    // Face landmark tracking powers the same lip-only effect on the sample model and webcam.
+    window.addEventListener('load', () => {
+      showSampleLipTint().catch(e => console.warn('AR de muestra no disponible:', e));
+    });
+
+
+    /* -------------------------------------------------------------------------- */
+    /* 5. 360° HORIZONTAL 3D PRODUCT ROTATOR                                    */
+    /* -------------------------------------------------------------------------- */
+    const slider360 = document.getElementById('slider-360');
+    const angleNum = document.getElementById('angle-num');
+    const rotatorBox = document.getElementById('rotator-box');
+    const product3D = document.getElementById('product-3d');
+    let angle360 = 0;
+    let dragging360 = false;
+    let lastX360 = 0;
+
+    function setProductAngle(value) {
+      angle360 = ((value % 360) + 360) % 360;
+      product3D.style.transform = `rotateY(${angle360}deg)`;
+      angleNum.textContent = Math.round(angle360);
+      slider360.value = Math.round(angle360);
+    }
+
+    if (slider360 && rotatorBox && product3D && angleNum) {
+    slider360.addEventListener('input', (e) => setProductAngle(Number(e.target.value)));
+    rotatorBox.addEventListener('pointerdown', (e) => {
+      dragging360 = true;
+      lastX360 = e.clientX;
+      rotatorBox.setPointerCapture(e.pointerId);
+      rotatorBox.classList.add('cursor-grabbing');
+    });
+    rotatorBox.addEventListener('pointermove', (e) => {
+      if (!dragging360) return;
+      const delta = e.clientX - lastX360;
+      lastX360 = e.clientX;
+      setProductAngle(angle360 + delta * 0.8);
+    });
+    function stopProductDrag() {
+      dragging360 = false;
+      rotatorBox.classList.remove('cursor-grabbing');
+    }
+    rotatorBox.addEventListener('pointerup', stopProductDrag);
+    rotatorBox.addEventListener('pointercancel', stopProductDrag);
+    rotatorBox.addEventListener('lostpointercapture', stopProductDrag);
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* 6. GLOW LAB BEFORE/AFTER SLIDER DRAG                                       */
+    /* -------------------------------------------------------------------------- */
+    const baContainer = document.getElementById('ba-container');
+    const baBeforeLayer = document.getElementById('ba-before-layer');
+    const baHandle = document.getElementById('ba-handle');
+    const baRange = document.getElementById('ba-range');
+
+    function setBASplit(value) {
+      const pos = Math.max(0, Math.min(100, Number(value)));
+      baBeforeLayer.style.clipPath = `inset(0 ${100 - pos}% 0 0)`;
+      baBeforeLayer.style.webkitClipPath = `inset(0 ${100 - pos}% 0 0)`;
+      baBeforeLayer.style.borderRightWidth = pos > 0 && pos < 100 ? '2px' : '0';
+      baHandle.style.left = `${pos}%`;
+      baContainer.style.setProperty('--ba-split', `${pos}%`);
+    }
+
+    if (baRange) {
+      baRange.addEventListener('input', (event) => setBASplit(event.target.value));
+      setBASplit(baRange.value);
+    }
+
+
+    /* -------------------------------------------------------------------------- */
+    /* 7. BEAUTY QUIZ & UTILS                                                     */
+    /* -------------------------------------------------------------------------- */
+    function openQuizModal() { document.getElementById('quiz-modal').classList.remove('hidden'); document.getElementById('quiz-modal').classList.add('flex'); }
+    function closeQuizModal() { document.getElementById('quiz-modal').classList.add('hidden'); document.getElementById('quiz-modal').classList.remove('flex'); }
+
+    const quizMap = {
+      'Glow Inmediato': ['Skincare', 'Cuidado y fragancias'],
+      'Piel Suave': ['Skincare', 'Cuidado y fragancias'],
+      'Color & Vibe': ['Maquillaje']
+    };
+    const moodMap = {
+      'Fresh & natural': ['Skincare', 'Cuidado y fragancias'],
+      'Soft glam': ['Maquillaje'],
+      'Self-care mode': ['Cuidado y fragancias', 'Skincare'],
+      'Main character': ['Maquillaje']
+    };
+
+    function finishModalQuiz(match) {
+      closeQuizModal();
+      setFilter(quizMap[match] || 'Todos', null, `Tu Beauty Match: ${match}`);
+      toast(`¡Match! Mira tu selección ${match} ♡`);
+    }
+
+    function showMoodPicks(mood) {
+      setFilter(moodMap[mood] || 'Todos', null, `Para tu mood: ${mood}`);
+    }
+
+    function pickMood(btnEl, mood, msg) {
+      document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('bg-pale', 'border-pinky'));
+      btnEl.classList.add('bg-pale', 'border-pinky');
+      
+      const res = document.getElementById('quiz-result');
+      res.classList.remove('hidden');
+      res.innerHTML = `<b>Tu mood de hoy: ${mood}</b><br>${msg}<br><button onclick="showMoodPicks('${mood}')" class="mt-3 px-4 py-2 rounded-full bg-ink text-white font-bold text-[10px] uppercase tracking-widest hover:bg-plum transition-colors">Ver mi selección ↗</button>`;
+    }
+
+    function toggleMobileNav() {
+      const nav = document.getElementById('mobile-nav');
+      nav.classList.toggle('hidden');
+      nav.classList.toggle('flex');
+    }
+
+    let toastTimer;
+    function toast(msg) {
+      const el = document.getElementById('toast');
+      el.innerText = msg;
+      el.classList.remove('opacity-0');
+      el.classList.add('opacity-100');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        el.classList.remove('opacity-100');
+        el.classList.add('opacity-0');
+      }, 2600);
+    }
+
+    // Cursor Glow Tracking
+    document.addEventListener('mousemove', (e) => {
+      const glow = document.getElementById('glow');
+      glow.style.left = `${e.clientX}px`;
+      glow.style.top = `${e.clientY}px`;
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key !== 'Escape') return;
+      closeQuizModal();
+      toggleCart(false);
+    });
+
+    function renderGlowProduct() {
+      const p = products.find(x => /cerave/i.test(x.name));
+      if (!p) return;
+      document.getElementById('ba-prod-img').src = p.img;
+      document.getElementById('ba-prod-img').alt = p.name;
+      document.getElementById('ba-prod-name').textContent = p.name;
+      document.getElementById('ba-prod-desc').textContent = p.desc;
+      document.getElementById('ba-prod-price').textContent = 'RD$ ' + p.price.toLocaleString('es-DO');
+      document.getElementById('ba-prod-btn').onclick = () => addCart(p.id);
+    }
+
+    // Initialize On Load
+    async function loadProductsFromJSON() {
+      try {
+        const ctl = new AbortController();
+        const timer = setTimeout(() => ctl.abort(), 4000);
+        const r = await fetch('products.json?v=' + Date.now(), { cache: 'no-store', signal: ctl.signal });
+        clearTimeout(timer);
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        const data = await r.json();
+        const list = Array.isArray(data) ? data : (data.products || []);
+        const slug = n => String(n || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+        const clean = list.filter(p => p && p.name).map(p => ({
+          id: (p.id !== undefined && p.id !== null && p.id !== '') ? p.id : slug(p.name),
+          name: String(p.name),
+          cat: p.cat || 'Maquillaje',
+          desc: String(p.desc || ''),
+          price: Number(p.price) || 0,
+          img: /^(https?:|data:)/.test(p.img || '') ? p.img : String(p.img || '').replace(/^\/+/, ''),
+          tag: String(p.tag || ''),
+          disponible: p.disponible !== false
+        }));
+        if (clean.length) products = clean;
+      } catch (e) {
+        console.warn('ixm.girl: se usa el catálogo incluido en la página', e);
+      }
+    }
+
+    window.onload = async () => {
+      await loadProductsFromJSON();
+      renderProducts();
+      loadCart();
+      renderGlowProduct();
+    };
+  </script>
+</body>
+</html>
