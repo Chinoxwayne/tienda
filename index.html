@@ -145,6 +145,8 @@
       animation: floatSlow 6s ease-in-out infinite;
     }
 
+    .swap-img { opacity: 0; transition: opacity .35s ease; }
+    @media (hover: hover) { .group:hover .swap-img { opacity: 1; } }
     html { scroll-padding-top: 5rem; }
     :focus-visible { outline: 2px solid var(--pink); outline-offset: 2px; }
     @media (prefers-reduced-motion: reduce) {
@@ -900,10 +902,15 @@
     <div class="relative bg-white w-full sm:max-w-3xl rounded-t-3xl sm:rounded-3xl max-h-[92vh] overflow-y-auto shadow-2xl">
       <button id="pm-close" onclick="closeProduct()" aria-label="Cerrar" class="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-white/90 border border-line text-xl leading-none hover:bg-pale">&times;</button>
       <div class="grid grid-cols-1 sm:grid-cols-2">
-        <div id="pm-imgbox" onclick="toggleProductZoom(event)" onmousemove="moveProductZoom(event)" class="relative bg-[#F7EDF0] h-72 sm:h-auto sm:min-h-[420px] overflow-hidden cursor-zoom-in select-none">
-          <img id="pm-img" src="" alt="" draggable="false" class="product-catalog-image w-full h-full object-contain p-6 transition-transform duration-300">
-          <span id="pm-badge" class="hidden absolute top-3 left-3 bg-ink text-white text-[8px] font-bold tracking-widest px-2.5 py-1 rounded-full uppercase pointer-events-none"></span>
-          <span id="pm-hint" class="absolute bottom-3 left-3 bg-white/90 text-ink text-[10px] font-bold px-3 py-1.5 rounded-full pointer-events-none">Toca para ampliar</span>
+        <div class="bg-[#F7EDF0] flex flex-col">
+          <div id="pm-imgbox" onclick="toggleProductZoom(event)" onmousemove="moveProductZoom(event)" ontouchstart="pmTouchStart(event)" ontouchend="pmTouchEnd(event)" class="relative h-72 sm:h-auto sm:min-h-[420px] sm:flex-1 overflow-hidden cursor-zoom-in select-none">
+            <img id="pm-img" src="" alt="" draggable="false" class="product-catalog-image w-full h-full object-contain p-6 transition-transform duration-300">
+            <span id="pm-badge" class="hidden absolute top-3 left-3 bg-ink text-white text-[8px] font-bold tracking-widest px-2.5 py-1 rounded-full uppercase pointer-events-none"></span>
+            <button type="button" onclick="stepProductImg(-1, event)" aria-label="Foto anterior" class="pm-arrow hidden absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 border border-line text-lg leading-none hover:bg-pale">&#8249;</button>
+            <button type="button" onclick="stepProductImg(1, event)" aria-label="Foto siguiente" class="pm-arrow hidden absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 border border-line text-lg leading-none hover:bg-pale">&#8250;</button>
+            <span id="pm-hint" class="absolute bottom-3 left-3 bg-white/90 text-ink text-[10px] font-bold px-3 py-1.5 rounded-full pointer-events-none">Toca para ampliar</span>
+          </div>
+          <div id="pm-thumbs" class="hidden flex gap-2 p-3 overflow-x-auto"></div>
         </div>
         <div class="p-6 sm:p-8 space-y-3 flex flex-col justify-center">
           <span id="pm-cat" class="text-[10px] font-bold uppercase tracking-widest text-pinky"></span>
@@ -1104,6 +1111,36 @@
     let activeFilter = 'Todos';
     let cart = [];
 
+    let pmImgs = [], pmIdx = 0, pmTouchX = null;
+    function showProductImg(i) {
+      if (!pmImgs.length) return;
+      pmIdx = (i + pmImgs.length) % pmImgs.length;
+      const img = document.getElementById('pm-img');
+      img.src = pmImgs[pmIdx];
+      resetProductZoom();
+      document.querySelectorAll('#pm-thumbs button').forEach((b, k) => {
+        b.classList.toggle('border-ink', k === pmIdx);
+        b.classList.toggle('border-transparent', k !== pmIdx);
+        b.setAttribute('aria-current', k === pmIdx ? 'true' : 'false');
+      });
+    }
+    function stepProductImg(d, e) { if (e) e.stopPropagation(); showProductImg(pmIdx + d); }
+    function pmTouchStart(e) { pmTouchX = e.changedTouches[0].clientX; }
+    function pmTouchEnd(e) {
+      if (pmTouchX === null || pmZoomed || pmImgs.length < 2) { pmTouchX = null; return; }
+      const dx = e.changedTouches[0].clientX - pmTouchX; pmTouchX = null;
+      if (Math.abs(dx) > 50) showProductImg(pmIdx + (dx < 0 ? 1 : -1));
+    }
+    function buildProductGallery(p) {
+      pmImgs = [p.img].concat(Array.isArray(p.extras) ? p.extras : []);
+      const th = document.getElementById('pm-thumbs');
+      const multi = pmImgs.length > 1;
+      th.classList.toggle('hidden', !multi);
+      document.querySelectorAll('.pm-arrow').forEach(b => b.classList.toggle('hidden', !multi));
+      th.innerHTML = multi ? pmImgs.map((src, k) => '<button type="button" onclick="showProductImg(' + k + ')" aria-label="Ver foto ' + (k + 1) + '" class="shrink-0 w-14 h-14 rounded-xl bg-white border-2 border-transparent overflow-hidden"><img src="' + src + '" alt="" class="product-catalog-image w-full h-full object-contain p-1"></button>').join('') : '';
+      showProductImg(0);
+    }
+
     let pmZoomed = false;
     function openProduct(id) {
       const p = products.find(x => String(x.id) === String(id));
@@ -1112,8 +1149,8 @@
       set('pm-cat', p.cat); set('pm-name', p.name);
       set('pm-price', 'RD$ ' + p.price.toLocaleString('es-DO'));
       set('pm-desc', p.desc || '');
-      const img = document.getElementById('pm-img'); img.src = p.img; img.alt = p.name;
-      resetProductZoom();
+      document.getElementById('pm-img').alt = p.name;
+      buildProductGallery(p);
       const out = p.disponible === false;
       const add = document.getElementById('pm-add');
       add.disabled = out; add.textContent = out ? 'Agotado' : 'Añadir a mi beauty bag +';
@@ -1176,6 +1213,7 @@
         <article role="button" tabindex="0" aria-label="Ver ${p.name}" onclick="openProduct('${p.id}')" onkeydown="if(event.target===this&&(event.key==='Enter'||event.key===' ')){event.preventDefault();openProduct('${p.id}')}" class="group glass-card rounded-3xl overflow-hidden border border-line flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
           <div class="relative h-64 bg-[#F7EDF0] overflow-hidden">
             <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.onerror=null;this.style.opacity='.2'" class="product-catalog-image w-full h-full object-contain p-5 group-hover:scale-105 transition-transform duration-700">
+            ${(p.extras && p.extras.length) ? `<div class="swap-img absolute inset-0 bg-[#F7EDF0] pointer-events-none"><img src="${p.extras[0]}" alt="" loading="lazy" class="product-catalog-image w-full h-full object-contain p-5"></div>` : ''}
             ${p.disponible === false ? `<span class="absolute top-3 left-3 bg-ink text-white text-[8px] font-bold tracking-widest px-2.5 py-1 rounded-full uppercase">Agotado</span>` : (p.tag ? `<span class="absolute top-3 left-3 bg-white text-ink text-[8px] font-bold tracking-widest px-2.5 py-1 rounded-full uppercase">${p.tag}</span>` : '')}
             
             <button ${p.disponible === false ? 'disabled' : `onclick="event.stopPropagation(); addCart('${p.id}')"`} class="absolute bottom-3 left-3 right-3 bg-white text-ink py-3 rounded-full text-[9px] font-bold uppercase tracking-wider shadow-md transform translate-y-12 group-hover:translate-y-0 transition-transform duration-300 hover:bg-pinky hover:text-white">${p.disponible === false ? 'Agotado' : 'Añadir a mi beauty bag +'}</button>
@@ -1694,6 +1732,7 @@
           price: Number(p.price) || 0,
           img: /^(https?:|data:)/.test(p.img || '') ? p.img : String(p.img || '').replace(/^\/+/, ''),
           tag: String(p.tag || ''),
+          extras: (Array.isArray(p.extras) ? p.extras : []).filter(Boolean).map(x => /^(https?:|data:)/.test(x) ? x : String(x).replace(/^\/+/, '')),
           disponible: p.disponible !== false
         }));
         if (clean.length) products = clean;
