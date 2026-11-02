@@ -62,8 +62,11 @@
     "name": "e.l.f. Glow Reviver Lip Oil",
     "price": 600,
     "cat": "Maquillaje",
-    "desc": "Aceite labial ligero e hidratante con brillo luminoso. Tonos: Súper-neutral, Crystal Baller, Piggy Bank y Candy Coded.",
+    "desc": "Envuelve tus labios en un irresistible toque de color ultrabrillante con este revitalizante aceite labial con color. Su aplicador XXL, de textura suave y sedosa, desliza una fórmula cómoda y no pegajosa, enriquecida con aceites nutritivos y un refrescante aroma a menta.",
     "img": "https://i.ibb.co/BK6DNsd3/IMG-0183.jpg",
+    "extras": [
+      "/images/2615651.png"
+    ],
     "disponible": true,
     "id": "6999"
   },
