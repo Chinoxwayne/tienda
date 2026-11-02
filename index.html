@@ -6,18 +6,20 @@
   <title>ixm.girl — For the girl you’re becoming.</title>
   <meta name="description" content="Maquillaje, skincare y fragancias con envíos a todo el país. Arma tu bolsa y haz tu pedido por WhatsApp.">
   <meta name="theme-color" content="#E6A6B7">
+  <link rel="canonical" href="https://ixmgirl.shop/">
+  <meta property="og:url" content="https://ixmgirl.shop/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_DO">
   <meta property="og:site_name" content="ixm.girl">
   <meta property="og:title" content="ixm.girl Beauty Studio">
   <meta property="og:description" content="Maquillaje, skincare y fragancias con envíos a todo el país. Haz tu pedido por WhatsApp.">
-  <meta property="og:image" content="images/og-ixmgirl.jpg">
+  <meta property="og:image" content="https://ixmgirl.shop/images/og-ixmgirl.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="ixm.girl Beauty Studio">
   <meta name="twitter:description" content="Maquillaje, skincare y fragancias con envíos a todo el país.">
-  <meta name="twitter:image" content="images/og-ixmgirl.jpg">
+  <meta name="twitter:image" content="https://ixmgirl.shop/images/og-ixmgirl.jpg">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23E6A6B7'/%3E%3Ctext x='32' y='42' font-size='26' text-anchor='middle' font-family='Georgia,serif' fill='%23241B20'%3Eixm%3C/text%3E%3C/svg%3E">
   
   <!-- Fonts -->
@@ -158,7 +160,7 @@
   <div class="cursor-glow hidden md:block" id="glow"></div>
 
   <!-- Announcement Bar -->
-  <div class="bg-ink text-white text-center py-2.5 px-4 text-[10px] sm:text-xs tracking-[0.2em] font-semibold uppercase z-50 relative">
+  <div id="site-announcement" class="bg-ink text-white text-center py-2.5 px-4 text-[10px] sm:text-xs tracking-[0.2em] font-semibold uppercase z-50 relative">
     UN POQUITO DE <span class="text-pinky font-bold">GLOW</span> PARA TU DÍA ✳ ENVÍOS Y NOVEDADES EXCLUSIVAS
   </div>
 
@@ -229,7 +231,7 @@
           it <em class="text-pinky italic font-normal">you.</em>
         </h1>
 
-        <p class="text-muted text-sm sm:text-base leading-relaxed max-w-md mx-auto lg:mx-0 font-normal">
+        <p id="hero-text" class="text-muted text-sm sm:text-base leading-relaxed max-w-md mx-auto lg:mx-0 font-normal">
           No hay una sola forma de ser bonita. Hay mil maneras de expresarte, cuidarte y sentirte increíble. Encuentra tus nuevos favoritos y convierte tu rutina en tu momento.
         </p>
 
@@ -894,6 +896,28 @@
 
 
   <!-- TOAST NOTIFICATION -->
+  <!-- FICHA DE PRODUCTO -->
+  <div id="product-modal" role="dialog" aria-modal="true" aria-labelledby="pm-name" onclick="if(event.target===this)closeProduct()" class="fixed inset-0 z-50 hidden items-end sm:items-center justify-center bg-black/50 p-0 sm:p-6">
+    <div class="relative bg-white w-full sm:max-w-3xl rounded-t-3xl sm:rounded-3xl max-h-[92vh] overflow-y-auto shadow-2xl">
+      <button id="pm-close" onclick="closeProduct()" aria-label="Cerrar" class="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-white/90 border border-line text-xl leading-none hover:bg-pale">&times;</button>
+      <div class="grid grid-cols-1 sm:grid-cols-2">
+        <div id="pm-imgbox" onclick="toggleProductZoom(event)" onmousemove="moveProductZoom(event)" class="relative bg-[#F7EDF0] h-72 sm:h-auto sm:min-h-[420px] overflow-hidden cursor-zoom-in select-none">
+          <img id="pm-img" src="" alt="" draggable="false" class="product-catalog-image w-full h-full object-contain p-6 transition-transform duration-300">
+          <span id="pm-badge" class="hidden absolute top-3 left-3 bg-ink text-white text-[8px] font-bold tracking-widest px-2.5 py-1 rounded-full uppercase pointer-events-none"></span>
+          <span id="pm-hint" class="absolute bottom-3 left-3 bg-white/90 text-ink text-[10px] font-bold px-3 py-1.5 rounded-full pointer-events-none">Toca para ampliar</span>
+        </div>
+        <div class="p-6 sm:p-8 space-y-3 flex flex-col justify-center">
+          <span id="pm-cat" class="text-[10px] font-bold uppercase tracking-widest text-pinky"></span>
+          <h3 id="pm-name" class="font-serif text-2xl sm:text-3xl font-medium text-ink"></h3>
+          <p id="pm-price" class="font-bold text-lg text-ink"></p>
+          <p id="pm-desc" class="text-sm text-muted leading-relaxed"></p>
+          <button id="pm-add" class="mt-2 w-full py-4 rounded-full bg-ink text-white font-bold text-xs uppercase tracking-widest hover:bg-plum transition-colors">Añadir a mi beauty bag +</button>
+          <p class="text-[10px] text-muted leading-relaxed">Envíos a todo el país · Transferencia o efectivo · No hacemos cambios ni devoluciones</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <a id="wa-float" href="https://wa.me/18294807825?text=Hola%2C%20ixm.girl.%20Quiero%20ayuda%20para%20elegir%20mis%20productos" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp" class="fixed bottom-5 right-5 z-30 flex items-center gap-3">
     <span class="hidden sm:block bg-white text-ink text-xs font-bold px-4 py-2.5 rounded-full shadow-lg border border-line">¿Te ayudo a elegir?</span>
     <span class="w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-xl hover:scale-105 transition-transform"><i data-lucide="message-circle" class="w-7 h-7"></i></span>
@@ -1081,6 +1105,59 @@
     let activeFilter = 'Todos';
     let cart = [];
 
+    let pmZoomed = false;
+    function openProduct(id) {
+      const p = products.find(x => String(x.id) === String(id));
+      if (!p) return;
+      const set = (i, v) => { document.getElementById(i).textContent = v; };
+      set('pm-cat', p.cat); set('pm-name', p.name);
+      set('pm-price', 'RD$ ' + p.price.toLocaleString('es-DO'));
+      set('pm-desc', p.desc || '');
+      const img = document.getElementById('pm-img'); img.src = p.img; img.alt = p.name;
+      resetProductZoom();
+      const out = p.disponible === false;
+      const add = document.getElementById('pm-add');
+      add.disabled = out; add.textContent = out ? 'Agotado' : 'Añadir a mi beauty bag +';
+      add.classList.toggle('opacity-50', out);
+      add.onclick = out ? null : () => { addCart(p.id); closeProduct(); };
+      const badge = document.getElementById('pm-badge');
+      const label = out ? 'Agotado' : (p.tag || '');
+      badge.textContent = label; badge.classList.toggle('hidden', !label);
+      const m = document.getElementById('product-modal');
+      m.classList.remove('hidden'); m.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+      document.getElementById('pm-close').focus();
+    }
+    function closeProduct() {
+      const m = document.getElementById('product-modal');
+      if (!m || m.classList.contains('hidden')) return;
+      m.classList.add('hidden'); m.classList.remove('flex');
+      resetProductZoom();
+      document.body.style.overflow = '';
+    }
+    function resetProductZoom() {
+      pmZoomed = false;
+      const img = document.getElementById('pm-img'), box = document.getElementById('pm-imgbox');
+      img.style.transform = ''; img.style.transformOrigin = '';
+      box.classList.add('cursor-zoom-in'); box.classList.remove('cursor-zoom-out');
+      document.getElementById('pm-hint').textContent = 'Toca para ampliar';
+    }
+    function moveProductZoom(e) {
+      if (!pmZoomed) return;
+      const r = document.getElementById('pm-imgbox').getBoundingClientRect();
+      document.getElementById('pm-img').style.transformOrigin = ((e.clientX - r.left) / r.width * 100) + '% ' + ((e.clientY - r.top) / r.height * 100) + '%';
+    }
+    function toggleProductZoom(e) {
+      if (pmZoomed) { resetProductZoom(); return; }
+      const box = document.getElementById('pm-imgbox'), img = document.getElementById('pm-img');
+      const r = box.getBoundingClientRect();
+      img.style.transformOrigin = ((e.clientX - r.left) / r.width * 100) + '% ' + ((e.clientY - r.top) / r.height * 100) + '%';
+      img.style.transform = 'scale(2.2)';
+      pmZoomed = true;
+      box.classList.remove('cursor-zoom-in'); box.classList.add('cursor-zoom-out');
+      document.getElementById('pm-hint').textContent = 'Toca para reducir';
+    }
+
     function renderProducts() {
       const grid = document.getElementById('products-grid');
       const query = document.getElementById('search-input').value.toLowerCase();
@@ -1097,12 +1174,12 @@
       }
 
       grid.innerHTML = filtered.map(p => `
-        <article class="group glass-card rounded-3xl overflow-hidden border border-line flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+        <article role="button" tabindex="0" aria-label="Ver ${p.name}" onclick="openProduct('${p.id}')" onkeydown="if(event.target===this&&(event.key==='Enter'||event.key===' ')){event.preventDefault();openProduct('${p.id}')}" class="group glass-card rounded-3xl overflow-hidden border border-line flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
           <div class="relative h-64 bg-[#F7EDF0] overflow-hidden">
             <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.onerror=null;this.style.opacity='.2'" class="product-catalog-image w-full h-full object-contain p-5 group-hover:scale-105 transition-transform duration-700">
             ${p.disponible === false ? `<span class="absolute top-3 left-3 bg-ink text-white text-[8px] font-bold tracking-widest px-2.5 py-1 rounded-full uppercase">Agotado</span>` : (p.tag ? `<span class="absolute top-3 left-3 bg-white text-ink text-[8px] font-bold tracking-widest px-2.5 py-1 rounded-full uppercase">${p.tag}</span>` : '')}
             
-            <button ${p.disponible === false ? 'disabled' : `onclick="addCart('${p.id}')"`} class="absolute bottom-3 left-3 right-3 bg-white text-ink py-3 rounded-full text-[9px] font-bold uppercase tracking-wider shadow-md transform translate-y-12 group-hover:translate-y-0 transition-transform duration-300 hover:bg-pinky hover:text-white">${p.disponible === false ? 'Agotado' : 'Añadir a mi beauty bag +'}</button>
+            <button ${p.disponible === false ? 'disabled' : `onclick="event.stopPropagation(); addCart('${p.id}')"`} class="absolute bottom-3 left-3 right-3 bg-white text-ink py-3 rounded-full text-[9px] font-bold uppercase tracking-wider shadow-md transform translate-y-12 group-hover:translate-y-0 transition-transform duration-300 hover:bg-pinky hover:text-white">${p.disponible === false ? 'Agotado' : 'Añadir a mi beauty bag +'}</button>
           </div>
 
           <div class="p-5 space-y-2">
@@ -1112,7 +1189,7 @@
             
             <div class="flex items-center justify-between pt-3 border-t border-line">
               <span class="font-bold text-sm text-ink">RD$ ${p.price.toLocaleString("es-DO")}</span>
-              <button onclick="toast('Añadido a tus favoritos ♡')" class="text-muted hover:text-pinky text-lg" aria-label="Favorito">♡</button>
+              <button onclick="event.stopPropagation(); toast('Añadido a tus favoritos ♡')" class="text-muted hover:text-pinky text-lg" aria-label="Favorito">♡</button>
             </div>
           </div>
         </article>
@@ -1140,6 +1217,7 @@
     /* -------------------------------------------------------------------------- */
     /* 2. SHOPPING CART LOGIC                                                     */
     /* -------------------------------------------------------------------------- */
+    let WA_NUMBER = '18294807825';
     const CART_KEY = 'ixm_cart_v1';
     let currentARShadeName = 'Súper-neutral';
 
@@ -1244,7 +1322,7 @@
       const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
       const lines = cart.map(item => `• ${item.name} — ${item.qty} × RD$ ${item.price.toLocaleString("es-DO")} = RD$ ${(item.qty * item.price).toLocaleString("es-DO")}`);
       const message = `¡Hola, ixm.girl! Quiero realizar este pedido:\n\n${lines.join('\n')}\n\nTotal: RD$ ${totalPrice.toLocaleString("es-DO")}\n\n¿Me pueden ayudar a coordinar mi pedido?`;
-      const whatsappUrl = `https://api.whatsapp.com/send/?phone=%2B18294807825&text=${encodeURIComponent(message)}&type=phone_number&app_absent=0`;
+      const whatsappUrl = `https://api.whatsapp.com/send/?phone=%2B${WA_NUMBER}&text=${encodeURIComponent(message)}&type=phone_number&app_absent=0`;
       window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
     }
 
@@ -1582,6 +1660,7 @@
 
     document.addEventListener('keydown', (e) => {
       if (e.key !== 'Escape') return;
+      closeProduct();
       closeQuizModal();
       toggleCart(false);
     });
