@@ -38,8 +38,11 @@
     "name": "Dior Addict Lip Glow / Gloss",
     "price": 1800,
     "cat": "Maquillaje",
-    "desc": "Un toque de color y brillo para los labios.",
+    "desc": "El bálsamo labial Dior Addict Lip Glow es la combinación perfecta entre tratamiento y maquillaje. Gracias a su tecnología única¹, la fórmula reacciona al pH de los labios para revelar un color \"a medida\" que realza instantáneamente su brillo.",
     "img": "/images/dior-addict-lip-gloss.webp",
+    "extras": [
+      "/images/00000000_zi_93e3fad5-1b10-463f-9b21-216f789ae17f-Photoroom.png"
+    ],
     "disponible": true,
     "id": "4999"
   },
