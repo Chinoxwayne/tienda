@@ -159,5 +159,13 @@
     "img": "https://www.bigw.com.au/medias/sys_master/images/images/ha0/h2c/155019346083870.jpg",
     "disponible": true,
     "id": "1899999"
+  },
+  {
+    "name": "Juvia's Place - Blushed Liquid Blush",
+    "price": 1200,
+    "cat": "Maquillaje",
+    "desc": "Esta fórmula cremosa y pigmentada, de fácil aplicación, hidrata la piel con vitamina E para lograr un brillo de aspecto natural.",
+    "img": "/images/2609910.avif",
+    "disponible": true
   }
 ]
