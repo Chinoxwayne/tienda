@@ -1,182 +1,163 @@
 [
   {
-    "id": 1,
     "name": "Maybelline Lifter Gloss",
+    "price": 700,
     "cat": "Maquillaje",
-    "price": 600,
     "desc": "Brillo hidratante para un acabado luminoso en los labios.",
     "img": "https://i.ibb.co/xSLfPdw9/IMG-0178.webp",
-    "tag": "",
     "disponible": true
   },
   {
-    "id": 2,
     "name": "Maybelline Super Stay Vinyl Ink",
-    "cat": "Maquillaje",
     "price": 600,
+    "cat": "Maquillaje",
     "desc": "Color intenso con acabado vinilo.",
     "img": "https://i.ibb.co/KpCy5Fdc/IMG-0179.jpg",
-    "tag": "",
-    "disponible": true
+    "disponible": true,
+    "id": "999"
   },
   {
-    "id": 3,
     "name": "Fenty Beauty Gloss Bomb",
-    "cat": "Maquillaje",
     "price": 1200,
+    "cat": "Maquillaje",
     "desc": "Gloss icónico para un brillo efecto volumen.",
     "img": "https://i.ibb.co/dsBVR86t/IMG-0187.jpg",
-    "tag": "",
-    "disponible": true
+    "disponible": true,
+    "id": "399"
   },
   {
-    "id": 4,
     "name": "Dior Addict Lip Glow / Gloss",
-    "cat": "Maquillaje",
     "price": 1800,
+    "cat": "Maquillaje",
     "desc": "Un toque de color y brillo para los labios.",
-    "img": "images/dior-addict-lip-gloss.webp",
-    "tag": "",
-    "disponible": true
+    "img": "/images/dior-addict-lip-gloss.webp",
+    "disponible": true,
+    "id": "4999"
   },
   {
-    "id": 5,
     "name": "Rare Beauty Soft Pinch Lip Oil",
-    "cat": "Maquillaje",
     "price": 1700,
+    "cat": "Maquillaje",
     "desc": "Aceite labial con color y acabado jugoso.",
-    "img": "images/rare-beauty-soft-pinch-lip-oil.webp",
-    "tag": "",
-    "disponible": true
+    "img": "/images/rare-beauty-soft-pinch-lip-oil.webp",
+    "disponible": true,
+    "id": "5999"
   },
   {
-    "id": 6,
     "name": "e.l.f. Glow Reviver Lip Oil",
-    "cat": "Maquillaje",
     "price": 600,
+    "cat": "Maquillaje",
     "desc": "Aceite labial ligero e hidratante con brillo luminoso. Tonos: Súper-neutral, Crystal Baller, Piggy Bank y Candy Coded.",
     "img": "https://i.ibb.co/BK6DNsd3/IMG-0183.jpg",
-    "tag": "",
-    "disponible": true
+    "disponible": true,
+    "id": "6999"
   },
   {
-    "id": 7,
     "name": "Maybelline Instant Age Rewind 4-in-1",
-    "cat": "Maquillaje",
     "price": 550,
+    "cat": "Maquillaje",
     "desc": "Corrector multiuso para una apariencia fresca.",
-    "img": "https://distausa.com/cdn/shop/files/61cK99Wvc0L_0e1fa31d-dc98-485d-8af5-6f6b0e4bc4a8_1280x.jpg?v=1773662699",
-    "tag": "",
-    "disponible": true
+    "img": "/images/2581945-1.avif",
+    "disponible": true,
+    "id": "7999"
   },
   {
-    "id": 8,
     "name": "e.l.f. Hydrating Camo Concealer",
-    "cat": "Maquillaje",
     "price": 750,
+    "cat": "Maquillaje",
     "desc": "Corrector hidratante de cobertura.",
-    "img": "https://media.ulta.com/i/ulta/2558508",
-    "tag": "",
-    "disponible": true
+    "img": "/images/84820_Open_A_R-1.webp",
+    "disponible": true,
+    "id": "8999"
   },
   {
-    "id": 9,
     "name": "Too Faced Born This Way Concealer",
-    "cat": "Maquillaje",
     "price": 1350,
+    "cat": "Maquillaje",
     "desc": "Corrector de cobertura natural.",
     "img": "https://i5.walmartimages.com/seo/Too-Faced-Born-This-Way-Super-Coverage-Multi-Use-Longwear-Concealer-Pearl_c811b576-4362-4025-ac1a-a619809c4a3c.54ad0ad9a5f72693d681efcb3a617c69.jpeg",
-    "tag": "",
-    "disponible": true
+    "disponible": true,
+    "id": "9999"
   },
   {
-    "id": 10,
     "name": "Too Faced Born This Way Foundation",
-    "cat": "Maquillaje",
     "price": 1650,
+    "cat": "Maquillaje",
     "desc": "Base de maquillaje para un acabado natural.",
-    "img": "images/too-faced-born-this-way-foundation.webp",
-    "tag": "",
-    "disponible": true
+    "img": "/images/too-faced-born-this-way-foundation.webp",
+    "disponible": true,
+    "id": "10999"
   },
   {
-    "id": 11,
     "name": "Too Faced Born This Way Soft Matte",
-    "cat": "Maquillaje",
     "price": 1600,
+    "cat": "Maquillaje",
     "desc": "Base de acabado mate suave.",
     "img": "https://m.toofaced.com/media/export/cms/products/1000x1000/2f_sku_183656_1000x1000_0.jpg",
-    "tag": "",
-    "disponible": true
+    "disponible": true,
+    "id": "11999"
   },
   {
-    "id": 12,
     "name": "e.l.f. Camo Liquid Blush",
-    "cat": "Maquillaje",
     "price": 650,
+    "cat": "Maquillaje",
     "desc": "Rubor líquido para un toque de color.",
     "img": "https://images.matas.dk/trs/w1300/encode/609332846395_4_20241119183020.jpg",
-    "tag": "",
-    "disponible": true
+    "disponible": true,
+    "id": "129999"
   },
   {
-    "id": 13,
     "name": "Pixi On-the-Glow Blush Stick",
-    "cat": "Maquillaje",
     "price": 700,
+    "cat": "Maquillaje",
     "desc": "Rubor en barra práctico y fácil de aplicar.",
-    "img": "https://media.ulta.com/i/ulta/2650662_alt01?fmt=auto&h=800&w=800",
-    "tag": "",
-    "disponible": true
+    "img": "/images/2650663_alt01.avif",
+    "disponible": true,
+    "id": "139999"
   },
   {
-    "id": 14,
     "name": "CeraVe Limpiador Hidratante",
-    "cat": "Skincare",
     "price": 1000,
+    "cat": "Skincare",
     "desc": "Limpieza suave para la rutina diaria.",
-    "img": "images/cerave-limpiador-hidratante.webp",
-    "tag": "",
-    "disponible": true
+    "img": "/images/cerave-limpiador-hidratante.webp",
+    "disponible": true,
+    "id": "149999"
   },
   {
-    "id": 15,
     "name": "Sol de Janeiro Cheirosa #62",
-    "cat": "Cuidado y fragancias",
     "price": 1600,
+    "cat": "Cuidado y fragancias",
     "desc": "Bruma corporal con aroma cálido y envolvente.",
-    "img": "images/sol-de-janeiro-cheirosa-62.webp",
-    "tag": "",
-    "disponible": true
+    "img": "/images/sol-de-janeiro-cheirosa-62.webp",
+    "disponible": true,
+    "id": "15666"
   },
   {
-    "id": 16,
     "name": "Sol de Janeiro Cheirosa #68",
-    "cat": "Cuidado y fragancias",
     "price": 1600,
+    "cat": "Cuidado y fragancias",
     "desc": "Bruma corporal con notas frescas y florales.",
     "img": "https://www.nk.se/globalassets/810912032248.jpg",
-    "tag": "",
-    "disponible": true
+    "disponible": true,
+    "id": "169999"
   },
   {
-    "id": 17,
     "name": "Sol de Janeiro Rio Radiance Mist",
-    "cat": "Cuidado y fragancias",
     "price": 1000,
+    "cat": "Cuidado y fragancias",
     "desc": "Bruma corporal con inspiración veraniega.",
     "img": "https://i.ibb.co/nNT4nmnT/IMG-0185.jpg",
-    "tag": "",
-    "disponible": true
+    "disponible": true,
+    "id": "179999"
   },
   {
-    "id": 18,
     "name": "Daise Body Mist",
-    "cat": "Cuidado y fragancias",
     "price": 1200,
+    "cat": "Cuidado y fragancias",
     "desc": "Bruma corporal para completar tu rutina.",
     "img": "https://www.bigw.com.au/medias/sys_master/images/images/ha0/h2c/155019346083870.jpg",
-    "tag": "",
-    "disponible": true
+    "disponible": true,
+    "id": "1899999"
   }
 ]
