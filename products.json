@@ -5,6 +5,9 @@
     "cat": "Maquillaje",
     "desc": "Brillo hidratante para un acabado luminoso en los labios.",
     "img": "https://i.ibb.co/xSLfPdw9/IMG-0178.webp",
+    "extras": [
+      "/images/IMG_2262.webp"
+    ],
     "disponible": true
   },
   {
