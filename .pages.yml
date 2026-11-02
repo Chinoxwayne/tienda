@@ -27,8 +27,12 @@ content:
         label: Descripción
         type: text
       - name: img
-        label: Foto
+        label: Foto principal
         type: image
+      - name: extras
+        label: Fotos extra (galería)
+        type: image
+        list: true
       - name: tag
         label: Etiqueta (opcional, por ejemplo Nuevo)
         type: string
