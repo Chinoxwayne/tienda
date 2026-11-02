@@ -50,8 +50,11 @@
     "name": "Rare Beauty Soft Pinch Lip Oil",
     "price": 1700,
     "cat": "Maquillaje",
-    "desc": "Aceite labial con color y acabado jugoso.",
+    "desc": "Un innovador bálsamo labial que se transforma en un aceite ligero. Al principio, deja los labios brillantes y con un ligero toque de color, a la vez que les aporta volumen y proporciona una sensación de confort durante todo el día, sin dejar sensación pegajosa.\n",
     "img": "/images/rare-beauty-soft-pinch-lip-oil.webp",
+    "extras": [
+      "/images/2647843-Photoroom.png"
+    ],
     "disponible": true,
     "id": "5999"
   },
