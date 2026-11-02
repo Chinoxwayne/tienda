@@ -26,8 +26,11 @@
     "name": "Fenty Beauty Gloss Bomb",
     "price": 1200,
     "cat": "Maquillaje",
-    "desc": "Gloss icónico para un brillo efecto volumen.",
+    "desc": "COLOR EXQUISITO, BRILLO EXPLOSIVO.\nLABIOS NUTRIDOS Y CON ASPECTO MÁS VOLUMINOSO.\nDIRECTAMENTE:\nNuestro brillo labial número 1, ahora con un color puro y cremoso y un brillo increíble. Los labios lucen instantáneamente más suaves y con mayor volumen.\n\nLO MÁS DESTACADO:\nTu brillo de labios favorito para sentirte bien y lucir estupenda, ahora con color de cobertura media a completa y sin brillo.",
     "img": "https://i.ibb.co/dsBVR86t/IMG-0187.jpg",
+    "extras": [
+      "/images/2592398.png"
+    ],
     "disponible": true,
     "id": "399"
   },
