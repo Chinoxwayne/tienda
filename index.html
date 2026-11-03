@@ -843,14 +843,49 @@
   <div id="cart-overlay" onclick="toggleCart(false)" class="hidden fixed inset-0 bg-black/40 z-40"></div>
   <div id="cart-panel" role="dialog" aria-label="Tu beauty bag" aria-hidden="true" class="fixed inset-y-0 right-0 w-full max-w-md bg-white z-50 transform translate-x-full transition-transform duration-400 p-6 flex flex-col justify-between shadow-2xl border-l border-line">
     
-    <div>
+    <div class="flex-1 min-h-0 overflow-y-auto pr-1">
       <div class="flex items-center justify-between border-b border-line pb-4">
         <h3 class="font-serif text-2xl font-medium text-ink">Tu beauty bag ♡</h3>
         <button onclick="toggleCart(false)" aria-label="Cerrar beauty bag" class="p-2 text-muted hover:text-ink text-2xl">&times;</button>
       </div>
 
-      <div id="cart-items" class="py-6 space-y-4 max-h-[60vh] overflow-y-auto">
+      <div id="cart-items" class="py-6 space-y-4">
         <p class="text-xs text-muted">Todavía no tienes favoritos en tu bolsa.</p>
+      </div>
+
+      <div id="order-form" class="hidden border-t border-line pt-5 pb-2 space-y-4">
+        <h4 class="font-serif text-lg text-ink">Datos de tu pedido</h4>
+        <div>
+          <label for="of-name" class="block text-[10px] font-bold uppercase tracking-widest text-muted mb-1.5">Tu nombre *</label>
+          <input id="of-name" type="text" autocomplete="name" oninput="onOrderChange()" class="w-full px-4 py-3 rounded-2xl border border-line bg-cream text-sm focus:outline-none focus:border-pinky">
+        </div>
+        <fieldset class="space-y-2">
+          <legend class="block text-[10px] font-bold uppercase tracking-widest text-muted mb-1.5">¿Cómo lo recibes? *</legend>
+          <label class="flex items-center gap-3 px-4 py-3 rounded-2xl border border-line text-sm cursor-pointer has-[:checked]:border-ink has-[:checked]:bg-pale">
+            <input id="of-delivery-local" type="radio" name="of-delivery" value="local" onchange="onOrderChange()" class="accent-[#241B20]"> Entrega local en Santiago
+          </label>
+          <label class="flex items-center gap-3 px-4 py-3 rounded-2xl border border-line text-sm cursor-pointer has-[:checked]:border-ink has-[:checked]:bg-pale">
+            <input type="radio" name="of-delivery" value="envio" onchange="onOrderChange()" class="accent-[#241B20]"> Envío a otra zona del país
+          </label>
+        </fieldset>
+        <div id="of-addr-wrap" class="hidden">
+          <label id="of-addr-label" for="of-addr" class="block text-[10px] font-bold uppercase tracking-widest text-muted mb-1.5"></label>
+          <input id="of-addr" type="text" autocomplete="street-address" oninput="onOrderChange()" class="w-full px-4 py-3 rounded-2xl border border-line bg-cream text-sm focus:outline-none focus:border-pinky">
+        </div>
+        <fieldset class="space-y-2">
+          <legend class="block text-[10px] font-bold uppercase tracking-widest text-muted mb-1.5">Forma de pago *</legend>
+          <label class="flex items-center gap-3 px-4 py-3 rounded-2xl border border-line text-sm cursor-pointer has-[:checked]:border-ink has-[:checked]:bg-pale">
+            <input id="of-pay-transfer" type="radio" name="of-pay" value="Transferencia bancaria" onchange="onOrderChange()" class="accent-[#241B20]"> Transferencia bancaria
+          </label>
+          <label class="flex items-center gap-3 px-4 py-3 rounded-2xl border border-line text-sm cursor-pointer has-[:checked]:border-ink has-[:checked]:bg-pale">
+            <input type="radio" name="of-pay" value="Efectivo" onchange="onOrderChange()" class="accent-[#241B20]"> Efectivo
+          </label>
+        </fieldset>
+        <div>
+          <label for="of-note" class="block text-[10px] font-bold uppercase tracking-widest text-muted mb-1.5">Nota (opcional)</label>
+          <textarea id="of-note" rows="2" class="w-full px-4 py-3 rounded-2xl border border-line bg-cream text-sm focus:outline-none focus:border-pinky"></textarea>
+        </div>
+        <p id="of-error" role="alert" class="hidden text-[11px] text-pinky font-bold"></p>
       </div>
     </div>
 
@@ -1311,6 +1346,7 @@
 
     function updateCart() {
       saveCart();
+      const of = document.getElementById('order-form'); if (of) of.classList.toggle('hidden', cart.length === 0);
       const countEl = document.getElementById('count');
       const itemsEl = document.getElementById('cart-items');
       const totalEl = document.getElementById('cart-total');
@@ -1351,15 +1387,66 @@
       updateCart();
     }
 
+    const ORDER_KEY = 'ixm_order_v1';
+    function orderVals() {
+      const pick = n => { const el = document.querySelector('input[name="' + n + '"]:checked'); return el ? el.value : ''; };
+      return {
+        name: document.getElementById('of-name').value.trim(),
+        delivery: pick('of-delivery'),
+        addr: document.getElementById('of-addr').value.trim(),
+        pay: pick('of-pay'),
+        note: document.getElementById('of-note').value.trim()
+      };
+    }
+    function onOrderChange() {
+      const v = orderVals();
+      const wrap = document.getElementById('of-addr-wrap');
+      wrap.classList.toggle('hidden', !v.delivery);
+      document.getElementById('of-addr-label').textContent = v.delivery === 'envio' ? 'Ciudad o provincia *' : 'Sector o dirección (opcional)';
+      const err = document.getElementById('of-error'); err.classList.add('hidden');
+      try { localStorage.setItem(ORDER_KEY, JSON.stringify({ name: v.name, delivery: v.delivery, addr: v.addr, pay: v.pay })); } catch (e) {}
+    }
+    function loadOrderForm() {
+      try {
+        const o = JSON.parse(localStorage.getItem(ORDER_KEY) || '{}');
+        if (o.name) document.getElementById('of-name').value = o.name;
+        if (o.addr) document.getElementById('of-addr').value = o.addr;
+        ['of-delivery:delivery', 'of-pay:pay'].forEach(p => {
+          const [n, k] = p.split(':');
+          document.querySelectorAll('input[name="' + n + '"]').forEach(r => { r.checked = (r.value === o[k]); });
+        });
+      } catch (e) {}
+      onOrderChange();
+    }
+    function buildOrderMessage(v) {
+      const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+      const lines = cart.map(item => `• ${item.name} — ${item.qty} × RD$ ${item.price.toLocaleString("es-DO")} = RD$ ${(item.qty * item.price).toLocaleString("es-DO")}`);
+      const entrega = v.delivery === 'local'
+        ? 'Entrega local en Santiago' + (v.addr ? ' (' + v.addr + ')' : '')
+        : 'Envío a otra zona: ' + v.addr;
+      const datos = ['Nombre: ' + v.name, 'Entrega: ' + entrega, 'Pago: ' + v.pay];
+      if (v.note) datos.push('Nota: ' + v.note);
+      return `¡Hola, ixm.girl! Quiero realizar este pedido:\n\n${lines.join('\n')}\n\nTotal de productos: RD$ ${total.toLocaleString("es-DO")}\n\n${datos.join('\n')}\n\n¿Me pueden ayudar a coordinar mi pedido?`;
+    }
     function sendCartToWhatsApp() {
       if (cart.length === 0) {
         toast('Agrega al menos un producto a tu beauty bag ♡');
         return;
       }
-      const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-      const lines = cart.map(item => `• ${item.name} — ${item.qty} × RD$ ${item.price.toLocaleString("es-DO")} = RD$ ${(item.qty * item.price).toLocaleString("es-DO")}`);
-      const message = `¡Hola, ixm.girl! Quiero realizar este pedido:\n\n${lines.join('\n')}\n\nTotal: RD$ ${totalPrice.toLocaleString("es-DO")}\n\n¿Me pueden ayudar a coordinar mi pedido?`;
-      const whatsappUrl = `https://api.whatsapp.com/send/?phone=%2B${WA_NUMBER}&text=${encodeURIComponent(message)}&type=phone_number&app_absent=0`;
+      const v = orderVals();
+      let miss = null;
+      if (!v.name) miss = ['of-name', 'Escribe tu nombre.'];
+      else if (!v.delivery) miss = ['of-delivery-local', 'Elige cómo quieres recibir tu pedido.'];
+      else if (v.delivery === 'envio' && !v.addr) miss = ['of-addr', 'Escribe tu ciudad o provincia.'];
+      else if (!v.pay) miss = ['of-pay-transfer', 'Elige tu forma de pago.'];
+      if (miss) {
+        const err = document.getElementById('of-error');
+        err.textContent = miss[1]; err.classList.remove('hidden');
+        const el = document.getElementById(miss[0]);
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' }); el.focus();
+        return;
+      }
+      const whatsappUrl = `https://api.whatsapp.com/send/?phone=%2B${WA_NUMBER}&text=${encodeURIComponent(buildOrderMessage(v))}&type=phone_number&app_absent=0`;
       window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
     }
 
@@ -1760,6 +1847,7 @@
       await loadProductsFromJSON();
       renderProducts();
       loadCart();
+      loadOrderForm();
       renderGlowProduct();
     };
   </script>
