@@ -628,7 +628,7 @@
   <!-- FEATURE ESSENCE BANNER -->
   <section id="story" class="py-20 bg-[#F7E9EC] grid grid-cols-1 lg:grid-cols-2 items-center overflow-hidden">
     <div class="h-96 lg:h-full min-h-[420px] relative">
-      <img src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?auto=format&fit=crop&w=1000&q=85" alt="Ritual ixm.girl" class="w-full h-full object-cover">
+      <img id="story-img" src="images/arbol-ixmgirl.webp" alt="Árbol navideño hecho con productos de maquillaje ixm.girl" class="w-full h-full object-cover">
     </div>
     <div class="p-10 sm:p-16 lg:p-20 space-y-6">
       <span class="text-xs font-bold uppercase tracking-widest text-plum">A MOMENT THAT'S ALL YOURS</span>
@@ -1714,6 +1714,16 @@
     }
 
     // Initialize On Load
+    async function loadSiteImages() {
+      try {
+        const r = await fetch('site.json?v=' + Date.now(), { cache: 'no-store' });
+        if (!r.ok) return;
+        const c = await r.json();
+        const norm = x => /^(https?:|data:)/.test(x || '') ? x : String(x || '').replace(/^\/+/, '');
+        if (c.imagen_rutina) document.getElementById('story-img').src = norm(c.imagen_rutina);
+      } catch (e) { console.warn('ixm.girl: se usan las imágenes incluidas en la página', e); }
+    }
+
     async function loadProductsFromJSON() {
       try {
         const ctl = new AbortController();
@@ -1742,6 +1752,7 @@
     }
 
     window.onload = async () => {
+      await loadSiteImages();
       await loadProductsFromJSON();
       renderProducts();
       loadCart();
