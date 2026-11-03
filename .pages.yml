@@ -43,3 +43,12 @@ content:
       - name: id
         label: Código (déjalo vacío en productos nuevos)
         type: string
+  - name: imagenes
+    label: Imágenes de la página
+    type: file
+    path: site.json
+    format: json
+    fields:
+      - name: imagen_rutina
+        label: Foto de la sección "Tu rutina. Tu espacio. Tu glow."
+        type: image
