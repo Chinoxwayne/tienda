@@ -50,5 +50,17 @@ content:
     format: json
     fields:
       - name: imagen_rutina
-        label: Foto de la sección "Tu rutina. Tu espacio. Tu glow."
+        label: Foto "Tu rutina. Tu espacio. Tu glow." (1200 x 1200 px, cuadrada)
+        type: image
+      - name: cat_maquillaje
+        label: Tarjeta Maquillaje (900 x 900 px, cuadrada)
+        type: image
+      - name: cat_skincare
+        label: Tarjeta Skincare (900 x 900 px, cuadrada)
+        type: image
+      - name: cat_cremas
+        label: Tarjeta Cremas (900 x 900 px, cuadrada)
+        type: image
+      - name: cat_accesorios
+        label: Tarjeta Accesorios (900 x 900 px, cuadrada)
         type: image
