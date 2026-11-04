@@ -218,5 +218,13 @@
     "desc": "Base hidratante ideal para piel seca, con fórmula ligera y sin aceite. Ofrece cobertura media, suaviza la textura de la piel y disimula imperfecciones, dejando un acabado naturalmente luminoso y fresco durante todo el día.",
     "img": "/images/IMG_0211.webp",
     "disponible": true
+  },
+  {
+    "name": "Maybelline new york fit me matte + poreless foundation",
+    "price": 1000,
+    "cat": "Maquillaje",
+    "desc": "Base de maquillaje ligera y sin aceite, ideal para piel normal a grasa. Ofrece cobertura media y acabado mate natural, ayuda a controlar el brillo, disimular los poros y mantener la piel suave hasta por 12 horas. Su fórmula no comedogénica no obstruye los poros.",
+    "img": "/images/IMG_0212.jpeg",
+    "disponible": true
   }
 ]
