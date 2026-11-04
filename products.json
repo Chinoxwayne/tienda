@@ -191,5 +191,13 @@
     "desc": "Esta fórmula cremosa y pigmentada, de fácil aplicación, hidrata la piel con vitamina E para lograr un brillo de aspecto natural.",
     "img": "/images/2609910.avif",
     "disponible": true
+  },
+  {
+    "name": "Loose Setting powder Pink cloud",
+    "price": 750,
+    "cat": "Maquillaje",
+    "desc": "Fórmula libre de crueldad, parabenos, sulfatos y talco, con una textura de polvo suelto y ligero que proporciona un acabado mate y natural. Ayuda a difuminar pequeñas líneas de expresión, mejorar el aspecto de la piel y controlar el brillo. Ideal para fijar, hornear y sellar el maquillaje, con una duración de hasta 14 horas.",
+    "img": "/images/IMG_0205.png",
+    "disponible": true
   }
 ]
