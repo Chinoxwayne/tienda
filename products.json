@@ -202,5 +202,13 @@
       "/images/IMG_0208.png"
     ],
     "disponible": true
+  },
+  {
+    "name": "kit de cuidado corporal tree hut tropical glow",
+    "price": 2000,
+    "cat": "Cuidado y fragancias",
+    "desc": "Kit de cuidado corporal Tree Hut Tropic Glow de 4 piezas. Incluye jabón espumoso, exfoliante de azúcar, mantequilla corporal y aceite reafirmante. Con una deliciosa fragancia tropical de piña y coco.",
+    "img": "/images/6E2BF5F3-EFE8-4FD9-A0A3-B9336040D5A1.png",
+    "disponible": true
   }
 ]
