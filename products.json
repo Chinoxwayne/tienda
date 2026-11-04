@@ -210,5 +210,13 @@
     "desc": "Kit de cuidado corporal Tree Hut Tropic Glow de 4 piezas. Incluye jabón espumoso, exfoliante de azúcar, mantequilla corporal y aceite reafirmante. Con una deliciosa fragancia tropical de piña y coco.",
     "img": "/images/6E2BF5F3-EFE8-4FD9-A0A3-B9336040D5A1.png",
     "disponible": true
+  },
+  {
+    "name": "maybelline new york fit me dewy + smooth foundation",
+    "price": 1000,
+    "cat": "Maquillaje",
+    "desc": "Base hidratante ideal para piel seca, con fórmula ligera y sin aceite. Ofrece cobertura media, suaviza la textura de la piel y disimula imperfecciones, dejando un acabado naturalmente luminoso y fresco durante todo el día.",
+    "img": "/images/IMG_0211.webp",
+    "disponible": true
   }
 ]
