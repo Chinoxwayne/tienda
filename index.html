@@ -147,6 +147,10 @@
       animation: floatSlow 6s ease-in-out infinite;
     }
 
+    .tone-swatch { border-radius: 9999px; border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0,0,0,.2); background-size: cover; background-position: center; cursor: pointer; transition: transform .15s ease, box-shadow .15s ease; padding: 0; flex-shrink: 0; }
+    .tone-swatch:hover { transform: scale(1.12); }
+    .tone-swatch.is-on { box-shadow: 0 0 0 2px #241B20; }
+    .tone-swatch:disabled { opacity: .35; cursor: not-allowed; transform: none; background-image: linear-gradient(135deg, transparent 46%, rgba(0,0,0,.55) 47%, rgba(0,0,0,.55) 53%, transparent 54%) !important; }
     .swap-img { opacity: 0; transition: opacity .35s ease; }
     @media (hover: hover) { .group:hover .swap-img { opacity: 1; } }
     html { scroll-padding-top: 5rem; }
@@ -954,6 +958,10 @@
           <h3 id="pm-name" class="font-serif text-2xl sm:text-3xl font-medium text-ink"></h3>
           <p id="pm-price" class="font-bold text-lg text-ink"></p>
           <p id="pm-desc" class="text-sm text-muted leading-relaxed"></p>
+          <div id="pm-tones-wrap" class="hidden space-y-2 pt-1">
+            <p class="text-[10px] font-bold uppercase tracking-widest text-muted">Tono: <span id="pm-tone-name" class="text-ink normal-case tracking-normal text-xs font-semibold">elige uno</span></p>
+            <div id="pm-tones" class="flex flex-wrap gap-2.5"></div>
+          </div>
           <button id="pm-add" class="mt-2 w-full py-4 rounded-full bg-ink text-white font-bold text-xs uppercase tracking-widest hover:bg-plum transition-colors">Añadir a mi beauty bag +</button>
           <p class="text-[10px] text-muted leading-relaxed">Envíos a todo el país · Transferencia o efectivo · No hacemos cambios ni devoluciones</p>
         </div>
@@ -1182,17 +1190,21 @@
     function openProduct(id) {
       const p = products.find(x => String(x.id) === String(id));
       if (!p) return;
+      pmProduct = p; pmTone = null;
       const set = (i, v) => { document.getElementById(i).textContent = v; };
       set('pm-cat', p.cat); set('pm-name', p.name);
       set('pm-price', 'RD$ ' + p.price.toLocaleString('es-DO'));
       set('pm-desc', p.desc || '');
       document.getElementById('pm-img').alt = p.name;
       buildProductGallery(p);
+      const tonos = p.tonos || [];
+      document.getElementById('pm-tones-wrap').classList.toggle('hidden', !tonos.length);
+      set('pm-tone-name', 'elige uno');
+      const box = document.getElementById('pm-tones');
+      box.innerHTML = tonos.map((t, i) => swatchHTML(t, 'selectTone(' + i + ')', 36, false)).join('');
+      autoSwatchColors(box);
+      updateAddButton();
       const out = p.disponible === false;
-      const add = document.getElementById('pm-add');
-      add.disabled = out; add.textContent = out ? 'Agotado' : 'Añadir a mi beauty bag +';
-      add.classList.toggle('opacity-50', out);
-      add.onclick = out ? null : () => { addCart(p.id); closeProduct(); };
       const badge = document.getElementById('pm-badge');
       const label = out ? 'Agotado' : (p.tag || '');
       badge.textContent = label; badge.classList.toggle('hidden', !label);
@@ -1231,6 +1243,96 @@
       document.getElementById('pm-hint').textContent = 'Toca para reducir';
     }
 
+    let pmTone = null, pmProduct = null;
+    const swatchColorCache = {};
+    const escA = t => String(t).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+    function slugTone(t) { return String(t).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
+    function swatchHTML(t, onclick, size, on) {
+      const url = t.img ? encodeURI(t.img).replace(/'/g, '%27') : '';
+      const bg = t.color ? 'background-color:' + t.color + ';' : (url ? "background-image:url('" + url + "');background-color:#eadde0;" : 'background-color:#d9ccd0;');
+      const auto = (!t.color && t.img) ? ' data-auto-src="' + escA(t.img) + '"' : '';
+      const label = t.nombre + (t.disponible ? '' : ' (agotado)');
+      return '<button type="button" class="tone-swatch' + (on ? ' is-on' : '') + '" ' + (t.disponible ? '' : 'disabled ') + 'title="' + escA(label) + '" aria-label="' + escA(label) + '" style="width:' + size + 'px;height:' + size + 'px;' + bg + '"' + auto + ' onclick="' + onclick + '"></button>';
+    }
+    function dominantFromPixels(d) {
+      const bins = Array.from({ length: 24 }, () => ({ w: 0, r: 0, g: 0, b: 0 }));
+      let ar = 0, ag = 0, ab = 0, an = 0;
+      for (let i = 0; i < d.length; i += 4) {
+        if (d[i + 3] < 200) continue;
+        const r = d[i], g = d[i + 1], b = d[i + 2];
+        ar += r; ag += g; ab += b; an++;
+        const mx = Math.max(r, g, b), mn = Math.min(r, g, b), df = mx - mn;
+        const v = mx / 255, s = mx ? df / mx : 0;
+        if (s < 0.28 || v < 0.2 || v > 0.97) continue;
+        let h;
+        if (mx === r) h = ((g - b) / df) % 6; else if (mx === g) h = (b - r) / df + 2; else h = (r - g) / df + 4;
+        h = (h * 60 + 360) % 360;
+        const w = s * v, bn = bins[Math.floor(h / 15) % 24];
+        bn.w += w; bn.r += r * w; bn.g += g * w; bn.b += b * w;
+      }
+      let best = null;
+      for (const bn of bins) if (bn.w > 0 && (!best || bn.w > best.w)) best = bn;
+      if (best && best.w > 0.5) return [Math.round(best.r / best.w), Math.round(best.g / best.w), Math.round(best.b / best.w)];
+      return an ? [Math.round(ar / an), Math.round(ag / an), Math.round(ab / an)] : null;
+    }
+    function autoSwatchColors(root) {
+      root.querySelectorAll('[data-auto-src]').forEach(el => {
+        const src = el.getAttribute('data-auto-src');
+        const apply = c => { el.style.backgroundColor = c; el.style.backgroundImage = 'none'; };
+        if (swatchColorCache[src]) { apply(swatchColorCache[src]); return; }
+        const im = new Image(); im.crossOrigin = 'anonymous';
+        im.onload = () => {
+          try {
+            const cv = document.createElement('canvas'); cv.width = cv.height = 48;
+            const cx = cv.getContext('2d', { willReadFrequently: true });
+            cx.drawImage(im, 0, 0, 48, 48);
+            const rgb = dominantFromPixels(cx.getImageData(0, 0, 48, 48).data);
+            if (rgb) { const c = 'rgb(' + rgb.join(',') + ')'; swatchColorCache[src] = c; apply(c); }
+          } catch (e) { /* si la foto es de otro sitio, se queda la miniatura */ }
+        };
+        im.src = src;
+      });
+    }
+    function cardTonesHTML(p) {
+      const t = p.tonos || [];
+      if (!t.length) return '';
+      const dots = t.slice(0, 6).map((x, i) => swatchHTML(x, "event.stopPropagation();cardTone(this,'" + p.id + "'," + i + ")", 18, false)).join('');
+      const more = t.length > 6 ? '<span class="text-[10px] text-muted self-center">+' + (t.length - 6) + '</span>' : '';
+      return '<div class="flex items-center gap-1.5 pt-1">' + dots + more + '</div>';
+    }
+    function cardTone(btn, pid, i) {
+      const p = products.find(x => String(x.id) === String(pid));
+      const t = p && p.tonos[i];
+      if (!t || !t.disponible) return;
+      const art = btn.closest('article');
+      const img = art.querySelector('.card-main-img');
+      if (t.img && img) img.src = t.img;
+      const sw = art.querySelector('.swap-img'); if (sw) sw.remove();
+      art.querySelectorAll('.tone-swatch').forEach(b => b.classList.toggle('is-on', b === btn));
+    }
+    function updateAddButton() {
+      const p = pmProduct; if (!p) return;
+      const add = document.getElementById('pm-add');
+      const out = p.disponible === false;
+      const needs = (p.tonos || []).length > 0 && pmTone === null;
+      add.disabled = out; add.classList.toggle('opacity-50', out);
+      add.textContent = out ? 'Agotado' : (needs ? 'Elige tu tono para añadir' : 'Añadir a mi beauty bag +');
+      add.onclick = out ? null : () => {
+        if (needs) { toast('Elige un tono ♡'); document.getElementById('pm-tones-wrap').scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
+        addCart(p.id, pmTone === null ? undefined : p.tonos[pmTone].nombre);
+        closeProduct();
+      };
+    }
+    function selectTone(i) {
+      const p = pmProduct; const t = p && p.tonos[i];
+      if (!t || !t.disponible) return;
+      pmTone = i;
+      document.getElementById('pm-tone-name').textContent = t.nombre;
+      document.querySelectorAll('#pm-tones .tone-swatch').forEach((b, k) => b.classList.toggle('is-on', k === i));
+      buildProductGallery({ ...p, img: t.img || p.img });
+      updateAddButton();
+    }
+
     function renderProducts() {
       const grid = document.getElementById('products-grid');
       const query = document.getElementById('search-input').value.toLowerCase();
@@ -1249,16 +1351,17 @@
       grid.innerHTML = filtered.map(p => `
         <article role="button" tabindex="0" aria-label="Ver ${p.name}" onclick="openProduct('${p.id}')" onkeydown="if(event.target===this&&(event.key==='Enter'||event.key===' ')){event.preventDefault();openProduct('${p.id}')}" class="group glass-card rounded-3xl overflow-hidden border border-line flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer">
           <div class="relative h-64 bg-[#F7EDF0] overflow-hidden">
-            <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.onerror=null;this.style.opacity='.2'" class="product-catalog-image w-full h-full object-contain p-5 group-hover:scale-105 transition-transform duration-700">
+            <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.onerror=null;this.style.opacity='.2'" class="card-main-img product-catalog-image w-full h-full object-contain p-5 group-hover:scale-105 transition-transform duration-700">
             ${(p.extras && p.extras.length) ? `<div class="swap-img absolute inset-0 bg-[#F7EDF0] pointer-events-none"><img src="${p.extras[0]}" alt="" loading="lazy" class="product-catalog-image w-full h-full object-contain p-5"></div>` : ''}
             ${p.disponible === false ? `<span class="absolute top-3 left-3 bg-ink text-white text-[8px] font-bold tracking-widest px-2.5 py-1 rounded-full uppercase">Agotado</span>` : (p.tag ? `<span class="absolute top-3 left-3 bg-white text-ink text-[8px] font-bold tracking-widest px-2.5 py-1 rounded-full uppercase">${p.tag}</span>` : '')}
             
-            <button ${p.disponible === false ? 'disabled' : `onclick="event.stopPropagation(); addCart('${p.id}')"`} class="absolute bottom-3 left-3 right-3 bg-white text-ink py-3 rounded-full text-[9px] font-bold uppercase tracking-wider shadow-md transform translate-y-12 group-hover:translate-y-0 transition-transform duration-300 hover:bg-pinky hover:text-white">${p.disponible === false ? 'Agotado' : 'Añadir a mi beauty bag +'}</button>
+            <button ${p.disponible === false ? 'disabled' : `onclick="event.stopPropagation(); ${(p.tonos && p.tonos.length) ? "openProduct('" + p.id + "')" : "addCart('" + p.id + "')"}"`} class="absolute bottom-3 left-3 right-3 bg-white text-ink py-3 rounded-full text-[9px] font-bold uppercase tracking-wider shadow-md transform translate-y-12 group-hover:translate-y-0 transition-transform duration-300 hover:bg-pinky hover:text-white">${p.disponible === false ? 'Agotado' : ((p.tonos && p.tonos.length) ? 'Elegir tono' : 'Añadir a mi beauty bag +')}</button>
           </div>
 
           <div class="p-5 space-y-2">
             <span class="text-[9px] font-bold uppercase tracking-widest text-pinky">${p.cat}</span>
             <h3 class="font-serif text-xl font-medium text-ink">${p.name}</h3>
+            ${cardTonesHTML(p)}
             <p class="text-xs text-muted leading-relaxed line-clamp-2">${p.desc}</p>
             
             <div class="flex items-center justify-between pt-3 border-t border-line">
@@ -1268,6 +1371,7 @@
           </div>
         </article>
       `).join('');
+      autoSwatchColors(grid);
     }
 
     function setFilter(cat, btnEl, label) {
@@ -1317,14 +1421,21 @@
       document.body.style.overflow = open ? 'hidden' : '';
     }
 
-    function addCart(id) {
+    function addCart(id, tono) {
       const product = products.find(p => String(p.id) === String(id));
       if (!product) return;
       if (product.disponible === false) { toast('Este producto está agotado'); return; }
-      const existing = cart.find(c => String(c.id) === String(id));
-      if (existing) existing.qty++; else cart.push({ ...product, qty: 1 });
+      if ((product.tonos || []).length && !tono) { openProduct(id); toast('Elige tu tono ♡'); return; }
+      let key = String(id), item = product;
+      if (tono) {
+        const t = product.tonos.find(x => x.nombre === tono);
+        key = String(id) + '__' + slugTone(tono);
+        item = { ...product, id: key, name: product.name + ' — ' + tono, img: (t && t.img) || product.img, tono };
+      }
+      const existing = cart.find(c => String(c.id) === key);
+      if (existing) existing.qty++; else cart.push({ ...item, qty: 1 });
       updateCart();
-      toast(`${product.name} añadido a tu beauty bag ♡`);
+      toast(`${item.name} añadido a tu beauty bag ♡`);
     }
 
     function addARShade() {
@@ -1836,8 +1947,15 @@
           img: /^(https?:|data:)/.test(p.img || '') ? p.img : String(p.img || '').replace(/^\/+/, ''),
           tag: String(p.tag || ''),
           extras: (Array.isArray(p.extras) ? p.extras : []).filter(Boolean).map(x => /^(https?:|data:)/.test(x) ? x : String(x).replace(/^\/+/, '')),
+          tonos: (Array.isArray(p.tonos) ? p.tonos : []).filter(t => t && t.nombre).map(t => ({
+            nombre: String(t.nombre),
+            color: /^#[0-9a-fA-F]{3,8}$/.test(String(t.color || '').trim()) ? String(t.color).trim() : '',
+            img: /^(https?:|data:)/.test(t.img || '') ? t.img : String(t.img || '').replace(/^\/+/, ''),
+            disponible: t.disponible !== false
+          })),
           disponible: p.disponible !== false
         }));
+        clean.forEach(p => { if (p.tonos.length && p.tonos.every(t => !t.disponible)) p.disponible = false; });
         if (clean.length) products = clean;
       } catch (e) {
         console.warn('ixm.girl: se usa el catálogo incluido en la página', e);
@@ -1853,5 +1971,6 @@
       renderGlowProduct();
     };
   </script>
+  <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "efa96de1160a49f0b078ca4290db5b56"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>
