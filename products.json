@@ -8,6 +8,13 @@
     "extras": [
       "/images/IMG_2262.webp"
     ],
+    "tonos": [
+      {
+        "nombre": "Honey",
+        "img": "/images/Maybelline-Lifter-Gloss-Honeyd-26-HONEY-US-41554098570-primary-Photoroom.png",
+        "disponible": true
+      }
+    ],
     "disponible": true
   },
   {
