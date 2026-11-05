@@ -33,6 +33,25 @@ content:
         label: Fotos extra (galería)
         type: image
         list: true
+      - name: tonos
+        label: Tonos (opcional, para productos con varios colores)
+        type: object
+        list: true
+        fields:
+          - name: nombre
+            label: Nombre del tono
+            type: string
+            required: true
+          - name: img
+            label: Foto de este tono (800 x 800 px, fondo transparente si es posible)
+            type: image
+          - name: color
+            label: Color del círculo (opcional, ej. #D9667A). Si lo dejas vacío se toma de la foto
+            type: string
+          - name: disponible
+            label: Disponible
+            type: boolean
+            default: true
       - name: tag
         label: Etiqueta (opcional, por ejemplo Nuevo)
         type: string
