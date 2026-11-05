@@ -200,6 +200,11 @@
         <span>Beauty Mood Quiz</span>
       </button>
 
+      <button onclick="showFavorites()" class="relative p-2.5 rounded-full hover:bg-black/5 transition-colors group" aria-label="Ver mis favoritos">
+        <i data-lucide="heart" class="w-5 h-5 text-ink group-hover:text-pinky transition-colors"></i>
+        <span id="fav-count" class="hidden absolute -top-1 -right-1 bg-ink text-white font-bold text-[10px] w-5 h-5 rounded-full items-center justify-center shadow-md">0</span>
+      </button>
+
       <button onclick="toggleCart()" class="relative p-2.5 rounded-full hover:bg-black/5 transition-colors group" aria-label="Abrir Bolsa de Belleza">
         <i data-lucide="shopping-bag" class="w-5 h-5 text-ink group-hover:text-pinky transition-colors"></i>
         <span id="count" class="absolute -top-1 -right-1 bg-pinky text-white font-bold text-[10px] w-5 h-5 rounded-full flex items-center justify-center shadow-md">0</span>
@@ -963,8 +968,16 @@
             <div id="pm-tones" class="flex flex-wrap gap-2.5"></div>
           </div>
           <button id="pm-add" class="mt-2 w-full py-4 rounded-full bg-ink text-white font-bold text-xs uppercase tracking-widest hover:bg-plum transition-colors">Añadir a mi beauty bag +</button>
+          <div class="flex gap-2">
+            <button id="pm-fav" type="button" onclick="toggleFav(pmProduct.id, this)" class="flex-1 py-3 rounded-full border border-line text-[10px] font-bold uppercase tracking-widest hover:border-ink transition-colors">♡ Guardar</button>
+            <button type="button" onclick="copyProductLink()" class="flex-1 py-3 rounded-full border border-line text-[10px] font-bold uppercase tracking-widest hover:border-ink transition-colors">Copiar enlace</button>
+          </div>
           <p class="text-[10px] text-muted leading-relaxed">Envíos a todo el país · Transferencia o efectivo · No hacemos cambios ni devoluciones</p>
         </div>
+      </div>
+      <div id="pm-related-wrap" class="hidden border-t border-line px-6 sm:px-8 py-5">
+        <p class="text-[10px] font-bold uppercase tracking-widest text-muted mb-3">También te puede gustar</p>
+        <div id="pm-related" class="flex gap-3 overflow-x-auto pb-2"></div>
       </div>
     </div>
   </div>
@@ -1204,6 +1217,9 @@
       box.innerHTML = tonos.map((t, i) => swatchHTML(t, 'selectTone(' + i + ')', 36, false)).join('');
       autoSwatchColors(box);
       updateAddButton();
+      paintHeart(document.getElementById('pm-fav'), isFav(p.id));
+      renderRelated(p);
+      try { history.replaceState(null, '', '#producto-' + pSlug(p)); } catch (e) {}
       const out = p.disponible === false;
       const badge = document.getElementById('pm-badge');
       const label = out ? 'Agotado' : (p.tag || '');
@@ -1212,6 +1228,7 @@
       m.classList.remove('hidden'); m.classList.add('flex');
       document.body.style.overflow = 'hidden';
       document.getElementById('pm-close').focus();
+      const sheet = m.firstElementChild; if (sheet) sheet.scrollTop = 0;
     }
     function closeProduct() {
       const m = document.getElementById('product-modal');
@@ -1219,6 +1236,7 @@
       m.classList.add('hidden'); m.classList.remove('flex');
       resetProductZoom();
       document.body.style.overflow = '';
+      if (location.hash.indexOf('#producto-') === 0) { try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {} }
     }
     function resetProductZoom() {
       pmZoomed = false;
@@ -1333,18 +1351,83 @@
       updateAddButton();
     }
 
+    const FAV_KEY = 'ixm_favs_v1';
+    const SHOW_RELATED = true; // prueba: pon false para ocultar "También te puede gustar"
+    function favList() { try { const a = JSON.parse(localStorage.getItem(FAV_KEY) || '[]'); return Array.isArray(a) ? a.map(String) : []; } catch (e) { return []; } }
+    function isFav(id) { return favList().includes(String(id)); }
+    function paintHeart(btn, on) {
+      if (!btn) return;
+      if (btn.id === 'pm-fav') { btn.textContent = on ? '♥ Guardado' : '♡ Guardar'; }
+      else { btn.textContent = on ? '♥' : '♡'; btn.classList.toggle('text-pinky', on); btn.classList.toggle('text-muted', !on); }
+      btn.setAttribute('aria-pressed', String(on));
+    }
+    function updateFavCount() {
+      const el = document.getElementById('fav-count'); if (!el) return;
+      const n = favList().filter(id => products.some(p => String(p.id) === id)).length;
+      el.textContent = n; el.classList.toggle('hidden', n === 0); el.classList.toggle('flex', n > 0);
+    }
+    function toggleFav(id, btn) {
+      const list = favList(), k = String(id), on = !list.includes(k);
+      const next = on ? list.concat(k) : list.filter(x => x !== k);
+      try { localStorage.setItem(FAV_KEY, JSON.stringify(next)); } catch (e) {}
+      paintHeart(btn, on); updateFavCount();
+      toast(on ? 'Guardado en tus favoritos ♡' : 'Quitado de tus favoritos');
+      if (!on && activeFilter === '__favs__') renderProducts();
+    }
+    function showFavorites() { setFilter('__favs__', null, 'Tus favoritos ♡'); }
+
+    function pSlug(p) { return p._slug || (p._slug = slugTone(p.name)); }
+    function productFromHash() {
+      let h = ''; try { h = decodeURIComponent(location.hash || ''); } catch (e) { return null; }
+      if (h.indexOf('#producto-') !== 0) return null;
+      const sl = h.slice(10);
+      return products.find(p => pSlug(p) === sl) || null;
+    }
+    function openFromHash() { const p = productFromHash(); if (p) openProduct(p.id); }
+    function fallbackCopy(url, done) {
+      const t = document.createElement('textarea'); t.value = url; t.style.position = 'fixed'; t.style.opacity = '0';
+      document.body.appendChild(t); t.select();
+      try { document.execCommand('copy'); done(); } catch (e) { toast(url); }
+      t.remove();
+    }
+    function copyProductLink() {
+      if (!pmProduct) return;
+      const url = location.origin + location.pathname + '#producto-' + pSlug(pmProduct);
+      const done = () => toast('Enlace copiado ♡');
+      if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(url).then(done).catch(() => fallbackCopy(url, done));
+      else fallbackCopy(url, done);
+    }
+    window.addEventListener('hashchange', () => {
+      const p = productFromHash(); if (!p) return;
+      const m = document.getElementById('product-modal');
+      const open = m && !m.classList.contains('hidden');
+      if (!(open && pmProduct && String(pmProduct.id) === String(p.id))) openProduct(p.id);
+    });
+
+    function relatedFor(p, n) {
+      const len = products.length, i = products.findIndex(x => String(x.id) === String(p.id));
+      const pool = products.map((x, k) => ({ x, d: (k - i + len) % len })).filter(o => String(o.x.id) !== String(p.id) && o.x.disponible !== false).sort((a, b) => a.d - b.d).map(o => o.x);
+      return pool.filter(x => x.cat === p.cat).concat(pool.filter(x => x.cat !== p.cat)).slice(0, n);
+    }
+    function renderRelated(p) {
+      const wrap = document.getElementById('pm-related-wrap'), box = document.getElementById('pm-related');
+      const list = SHOW_RELATED ? relatedFor(p, 4) : [];
+      wrap.classList.toggle('hidden', !list.length);
+      box.innerHTML = list.map(x => `<button type="button" onclick="openProduct('${x.id}')" class="shrink-0 w-28 text-left"><div class="h-24 rounded-xl bg-[#F7EDF0] overflow-hidden"><img src="${escA(x.img)}" alt="" loading="lazy" class="product-catalog-image w-full h-full object-contain p-2"></div><p class="mt-1.5 text-[11px] font-semibold text-ink leading-snug line-clamp-2">${escA(x.name)}</p><p class="text-[11px] text-muted">RD$ ${x.price.toLocaleString('es-DO')}</p></button>`).join('');
+    }
+
     function renderProducts() {
       const grid = document.getElementById('products-grid');
       const query = document.getElementById('search-input').value.toLowerCase();
 
       const filtered = products.filter(p => {
-        const matchesCategory = (activeFilter === 'Todos' || (Array.isArray(activeFilter) ? activeFilter.includes(p.cat) : p.cat === activeFilter));
+        const matchesCategory = (activeFilter === 'Todos' || (activeFilter === '__favs__' ? isFav(p.id) : (Array.isArray(activeFilter) ? activeFilter.includes(p.cat) : p.cat === activeFilter)));
         const matchesQuery = p.name.toLowerCase().includes(query) || p.desc.toLowerCase().includes(query);
         return matchesCategory && matchesQuery;
       });
 
       if (filtered.length === 0) {
-        grid.innerHTML = `<div class="col-span-full text-center py-12 text-muted text-xs">${activeFilter === 'Accesorios' ? 'Los accesorios llegan pronto ✳ Escríbenos por WhatsApp y te contamos.' : 'No encontramos productos en esta búsqueda.'}</div>`;
+        grid.innerHTML = `<div class="col-span-full text-center py-12 text-muted text-xs">${activeFilter === '__favs__' ? 'Todavía no tienes favoritos. Toca el ♡ en un producto para guardarlo.' : activeFilter === 'Accesorios' ? 'Los accesorios llegan pronto ✳ Escríbenos por WhatsApp y te contamos.' : 'No encontramos productos en esta búsqueda.'}</div>`;
         return;
       }
 
@@ -1366,7 +1449,7 @@
             
             <div class="flex items-center justify-between pt-3 border-t border-line">
               <span class="font-bold text-sm text-ink">RD$ ${p.price.toLocaleString("es-DO")}</span>
-              <button onclick="event.stopPropagation(); toast('Añadido a tus favoritos ♡')" class="text-muted hover:text-pinky text-lg" aria-label="Favorito">♡</button>
+              <button onclick="event.stopPropagation(); toggleFav('${p.id}', this)" class="${isFav(p.id) ? 'text-pinky' : 'text-muted'} hover:text-pinky text-lg" aria-label="Favorito" aria-pressed="${isFav(p.id)}">${isFav(p.id) ? '♥' : '♡'}</button>
             </div>
           </div>
         </article>
@@ -1969,6 +2052,8 @@
       loadCart();
       loadOrderForm();
       renderGlowProduct();
+      updateFavCount();
+      openFromHash();
     };
   </script>
   <!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "efa96de1160a49f0b078ca4290db5b56"}'></script><!-- End Cloudflare Web Analytics -->
