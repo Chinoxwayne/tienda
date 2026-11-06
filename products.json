@@ -233,5 +233,13 @@
     "desc": "Base de maquillaje ligera y sin aceite, ideal para piel normal a grasa. Ofrece cobertura media y acabado mate natural, ayuda a controlar el brillo, disimular los poros y mantener la piel suave hasta por 12 horas. Su fórmula no comedogénica no obstruye los poros.",
     "img": "/images/IMG_0212.jpeg",
     "disponible": true
+  },
+  {
+    "name": "Aveeno Daily Moisturizing Face Lotion",
+    "price": 800,
+    "cat": "Skincare",
+    "desc": "Hidratante facial de uso diario que proporciona 24 horas de hidratación. Su fórmula ligera y suave ayuda a combatir la resequedad, dejando la piel suave y con un aspecto saludable.",
+    "img": "/images/IMG_0214.webp",
+    "disponible": true
   }
 ]
