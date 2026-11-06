@@ -277,5 +277,25 @@
       }
     ],
     "disponible": true
+  },
+  {
+    "name": "eos body lotion",
+    "price": 1100,
+    "cat": "Cuidado y fragancias",
+    "desc": "La línea eos Shea Better 24H Moisture Body Lotion es una de las opciones más virales en el cuidado corporal gracias a su hidratación profunda de 24 horas y sus aromas dulces (estilo \"gourmand\"). Todas sus fragancias están formuladas con manteca de karité pura y aceites naturales, ofreciendo una textura ligera de rápida absorción que no deja sensación grasosa.",
+    "img": "/images/IMG_0220-1.jpeg",
+    "tonos": [
+      {
+        "nombre": "pink champagne",
+        "img": "/images/IMG_0221-1.jpeg",
+        "disponible": true
+      },
+      {
+        "nombre": "fragrance-free",
+        "img": "/images/IMG_0222-1.webp",
+        "disponible": true
+      }
+    ],
+    "disponible": true
   }
 ]
