@@ -241,5 +241,13 @@
     "desc": "Hidratante facial de uso diario que proporciona 24 horas de hidratación. Su fórmula ligera y suave ayuda a combatir la resequedad, dejando la piel suave y con un aspecto saludable.",
     "img": "/images/IMG_0214.webp",
     "disponible": true
+  },
+  {
+    "name": "L’oreal paris infallible pro glow 24hr foundation",
+    "price": 800,
+    "cat": "Maquillaje",
+    "desc": "Base de maquillaje ligera y cremosa, ideal para pieles secas y normales. Ofrece cobertura media y edificable, ayuda a disimular imperfecciones y proporciona un acabado luminoso e hidratante. Su fórmula de larga duración ofrece hasta 24 horas de uso e incluye protección solar SPF 15.",
+    "img": "/images/IMG_0215.jpeg",
+    "disponible": true
   }
 ]
