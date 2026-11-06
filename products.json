@@ -249,5 +249,13 @@
     "desc": "Base de maquillaje ligera y cremosa, ideal para pieles secas y normales. Ofrece cobertura media y edificable, ayuda a disimular imperfecciones y proporciona un acabado luminoso e hidratante. Su fórmula de larga duración ofrece hasta 24 horas de uso e incluye protección solar SPF 15.",
     "img": "/images/IMG_0215.jpeg",
     "disponible": true
+  },
+  {
+    "name": "Eyebrow Pomade ",
+    "price": 600,
+    "cat": "Maquillaje",
+    "desc": "Pomada para cejas de alta pigmentación y larga duración, ideal para rellenar, definir y esculpir con precisión. Su fórmula resistente al agua, al sudor y a las manchas ofrece hasta 16 horas de duración. Incluye pincel doble para aplicar y difuminar. Es vegana y libre de crueldad animal.",
+    "img": "/images/IMG_0216.webp",
+    "disponible": true
   }
 ]
