@@ -257,5 +257,25 @@
     "desc": "Pomada para cejas de alta pigmentación y larga duración, ideal para rellenar, definir y esculpir con precisión. Su fórmula resistente al agua, al sudor y a las manchas ofrece hasta 16 horas de duración. Incluye pincel doble para aplicar y difuminar. Es vegana y libre de crueldad animal.",
     "img": "/images/IMG_0216.webp",
     "disponible": true
+  },
+  {
+    "name": "Neutrogena color correcting concealer",
+    "price": 500,
+    "cat": "Maquillaje",
+    "desc": "Los Neutrogena Color Correcting Concealers son correctores de color con niacinamida (B3) que ayudan a neutralizar imperfecciones: el rosado/salmón disimula ojeras oscuras, el verde corrige rojeces y el durazno/naranja ayuda a cubrir manchas y ojeras marrones o azuladas. Se aplican en pequeñas cantidades antes de la base para conseguir un tono de piel más uniforme. ",
+    "img": "/images/IMG_0217.jpeg",
+    "tonos": [
+      {
+        "nombre": "Corrector verde",
+        "img": "/images/IMG_0218.jpeg",
+        "disponible": true
+      },
+      {
+        "nombre": "Corrector salmón ",
+        "img": "/images/IMG_0219.webp",
+        "disponible": true
+      }
+    ],
+    "disponible": true
   }
 ]
