@@ -1210,6 +1210,11 @@
       const list = Array.isArray(p.secciones) ? p.secciones : [];
       box.classList.toggle('hidden', !list.length);
       box.innerHTML = list.map(x => '<details class="border-t border-line"><summary class="acc-sum flex items-center justify-between gap-4 py-3.5 cursor-pointer text-sm font-medium text-ink"><span>' + escA(x.titulo) + '</span><span class="acc-plus text-lg leading-none text-muted" aria-hidden="true"></span></summary><div class="pb-4 text-sm text-muted leading-relaxed whitespace-pre-line">' + escA(x.texto) + '</div></details>').join('');
+      // solo una abierta a la vez: al abrir una, se cierran las demás
+      const all = box.querySelectorAll('details');
+      all.forEach(d => d.addEventListener('toggle', () => {
+        if (d.open) all.forEach(o => { if (o !== d) o.open = false; });
+      }));
     }
     function openProduct(id) {
       const p = products.find(x => String(x.id) === String(id));
