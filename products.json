@@ -335,6 +335,16 @@
         "nombre": "Coral",
         "img": "/images/IMG_0228.jpeg",
         "disponible": true
+      },
+      {
+        "nombre": "Plum",
+        "img": "/images/IMG_0229.jpeg",
+        "disponible": true
+      },
+      {
+        "nombre": "Berry",
+        "img": "/images/IMG_0230.webp",
+        "disponible": true
       }
     ],
     "disponible": true
