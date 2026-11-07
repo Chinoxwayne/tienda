@@ -147,6 +147,10 @@
       animation: floatSlow 6s ease-in-out infinite;
     }
 
+    .acc-sum { list-style: none; }
+    .acc-sum::-webkit-details-marker { display: none; }
+    .acc-plus::before { content: '+'; }
+    details[open] > .acc-sum .acc-plus::before { content: '\2212'; }
     .tone-swatch { border-radius: 9999px; border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0,0,0,.2); background-size: cover; background-position: center; cursor: pointer; transition: transform .15s ease, box-shadow .15s ease; padding: 0; flex-shrink: 0; }
     .tone-swatch:hover { transform: scale(1.12); }
     .tone-swatch.is-on { box-shadow: 0 0 0 2px #241B20; }
@@ -972,6 +976,7 @@
             <button id="pm-fav" type="button" onclick="toggleFav(pmProduct.id, this)" class="flex-1 py-3 rounded-full border border-line text-[10px] font-bold uppercase tracking-widest hover:border-ink transition-colors">♡ Guardar</button>
             <button type="button" onclick="copyProductLink()" class="flex-1 py-3 rounded-full border border-line text-[10px] font-bold uppercase tracking-widest hover:border-ink transition-colors">Copiar enlace</button>
           </div>
+          <div id="pm-sections" class="hidden border-b border-line"></div>
           <p class="text-[10px] text-muted leading-relaxed">Envíos a todo el país · Transferencia o efectivo · No hacemos cambios ni devoluciones</p>
         </div>
       </div>
@@ -1200,6 +1205,12 @@
     }
 
     let pmZoomed = false;
+    function renderSections(p) {
+      const box = document.getElementById('pm-sections');
+      const list = Array.isArray(p.secciones) ? p.secciones : [];
+      box.classList.toggle('hidden', !list.length);
+      box.innerHTML = list.map(x => '<details class="border-t border-line"><summary class="acc-sum flex items-center justify-between gap-4 py-3.5 cursor-pointer text-sm font-medium text-ink"><span>' + escA(x.titulo) + '</span><span class="acc-plus text-lg leading-none text-muted" aria-hidden="true"></span></summary><div class="pb-4 text-sm text-muted leading-relaxed whitespace-pre-line">' + escA(x.texto) + '</div></details>').join('');
+    }
     function openProduct(id) {
       const p = products.find(x => String(x.id) === String(id));
       if (!p) return;
@@ -1219,6 +1230,7 @@
       updateAddButton();
       paintHeart(document.getElementById('pm-fav'), isFav(p.id));
       renderRelated(p);
+      renderSections(p);
       try { history.replaceState(null, '', '#producto-' + pSlug(p)); } catch (e) {}
       const out = p.disponible === false;
       const badge = document.getElementById('pm-badge');
@@ -2030,6 +2042,7 @@
           img: /^(https?:|data:)/.test(p.img || '') ? p.img : String(p.img || '').replace(/^\/+/, ''),
           tag: String(p.tag || ''),
           extras: (Array.isArray(p.extras) ? p.extras : []).filter(Boolean).map(x => /^(https?:|data:)/.test(x) ? x : String(x).replace(/^\/+/, '')),
+          secciones: (Array.isArray(p.secciones) ? p.secciones : []).filter(x => x && x.titulo).map(x => ({ titulo: String(x.titulo), texto: String(x.texto || '') })),
           tonos: (Array.isArray(p.tonos) ? p.tonos : []).filter(t => t && t.nombre).map(t => ({
             nombre: String(t.nombre),
             color: /^#[0-9a-fA-F]{3,8}$/.test(String(t.color || '').trim()) ? String(t.color).trim() : '',
