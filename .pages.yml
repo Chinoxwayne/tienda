@@ -52,6 +52,18 @@ content:
             label: Disponible
             type: boolean
             default: true
+      - name: secciones
+        label: Secciones desplegables (Ingredientes, Notas, Cómo usar, etc.)
+        type: object
+        list: true
+        fields:
+          - name: titulo
+            label: Título de la sección (ej. Ingredientes)
+            type: string
+            required: true
+          - name: texto
+            label: Texto de la sección
+            type: text
       - name: tag
         label: Etiqueta (opcional, por ejemplo Nuevo)
         type: string
