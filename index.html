@@ -147,10 +147,16 @@
       animation: floatSlow 6s ease-in-out infinite;
     }
 
-    .acc-sum { list-style: none; }
-    .acc-sum::-webkit-details-marker { display: none; }
-    .acc-plus::before { content: '+'; }
-    details[open] > .acc-sum .acc-plus::before { content: '\2212'; }
+    .acc-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .4s cubic-bezier(.4, 0, .2, 1); }
+    .acc-item.is-open > .acc-panel { grid-template-rows: 1fr; }
+    .acc-inner { overflow: hidden; min-height: 0; }
+    .acc-inner > div { opacity: 0; transform: translateY(-4px); transition: opacity .3s ease, transform .3s ease; }
+    .acc-item.is-open .acc-inner > div { opacity: 1; transform: none; transition-delay: .1s; }
+    .acc-plus { position: relative; width: 14px; height: 14px; flex-shrink: 0; }
+    .acc-plus::before, .acc-plus::after { content: ''; position: absolute; left: 0; top: 50%; width: 100%; height: 1.5px; margin-top: -.75px; background: currentColor; color: #6b5a62; transition: transform .35s cubic-bezier(.4, 0, .2, 1); }
+    .acc-plus::after { transform: rotate(90deg); }
+    .acc-item.is-open .acc-plus::after { transform: rotate(0deg); }
+    @media (prefers-reduced-motion: reduce) { .acc-panel, .acc-inner > div, .acc-plus::after { transition: none !important; } }
     .tone-swatch { border-radius: 9999px; border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0,0,0,.2); background-size: cover; background-position: center; cursor: pointer; transition: transform .15s ease, box-shadow .15s ease; padding: 0; flex-shrink: 0; }
     .tone-swatch:hover { transform: scale(1.12); }
     .tone-swatch.is-on { box-shadow: 0 0 0 2px #241B20; }
@@ -1209,12 +1215,19 @@
       const box = document.getElementById('pm-sections');
       const list = Array.isArray(p.secciones) ? p.secciones : [];
       box.classList.toggle('hidden', !list.length);
-      box.innerHTML = list.map(x => '<details class="border-t border-line"><summary class="acc-sum flex items-center justify-between gap-4 py-3.5 cursor-pointer text-sm font-medium text-ink"><span>' + escA(x.titulo) + '</span><span class="acc-plus text-lg leading-none text-muted" aria-hidden="true"></span></summary><div class="pb-4 text-sm text-muted leading-relaxed whitespace-pre-line">' + escA(x.texto) + '</div></details>').join('');
-      // solo una abierta a la vez: al abrir una, se cierran las demás
-      const all = box.querySelectorAll('details');
-      all.forEach(d => d.addEventListener('toggle', () => {
-        if (d.open) all.forEach(o => { if (o !== d) o.open = false; });
-      }));
+      box.innerHTML = list.map(x => '<div class="acc-item border-t border-line"><button type="button" class="acc-btn flex w-full items-center justify-between gap-4 py-3.5 text-left text-sm font-medium text-ink" aria-expanded="false" onclick="toggleSection(this)"><span>' + escA(x.titulo) + '</span><span class="acc-plus" aria-hidden="true"></span></button><div class="acc-panel" inert><div class="acc-inner"><div class="pb-4 text-sm text-muted leading-relaxed whitespace-pre-line">' + escA(x.texto) + '</div></div></div></div>').join('');
+    }
+    // solo una sección abierta a la vez, con animación: se cierra una mientras se abre la otra
+    function toggleSection(btn) {
+      const item = btn.closest('.acc-item'), box = item.parentElement;
+      const willOpen = !item.classList.contains('is-open');
+      box.querySelectorAll('.acc-item').forEach(o => {
+        const on = (o === item) && willOpen;
+        o.classList.toggle('is-open', on);
+        o.querySelector('.acc-btn').setAttribute('aria-expanded', String(on));
+        o.querySelector('.acc-panel').inert = !on;
+      });
+      if (willOpen) setTimeout(() => item.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 400);
     }
     function openProduct(id) {
       const p = products.find(x => String(x.id) === String(id));
