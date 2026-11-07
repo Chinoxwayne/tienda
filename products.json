@@ -323,5 +323,20 @@
     "desc": "Matifica y deja un acabado de aspecto sin poros con control de brillo duradero. Ideal para pieles normales a grasas, este polvo de larga duración deja un acabado natural.",
     "img": "/images/IMG_0226.jpeg",
     "disponible": true
+  },
+  {
+    "name": "FIT ME® BLUSH MAQUILLAJE FACIAL",
+    "price": 600,
+    "cat": "Maquillaje",
+    "desc": "Rubor en polvo ligero que brinda un color natural que dura todo el día. La fórmula combinable y de tono real se desgasta uniformemente y mejora el tono de la piel con un brillo radiante.",
+    "img": "/images/IMG_0227.webp",
+    "tonos": [
+      {
+        "nombre": "Coral",
+        "img": "/images/IMG_0228.jpeg",
+        "disponible": true
+      }
+    ],
+    "disponible": true
   }
 ]
