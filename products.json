@@ -242,6 +242,43 @@
     "cat": "Maquillaje",
     "desc": "Base hidratante ideal para piel seca, con fórmula ligera y sin aceite. Ofrece cobertura media, suaviza la textura de la piel y disimula imperfecciones, dejando un acabado naturalmente luminoso y fresco durante todo el día.",
     "img": "/images/IMG_0211.webp",
+    "tonos": [
+      {
+        "nombre": "125",
+        "img": "/images/IMG_0256.jpeg",
+        "disponible": true
+      },
+      {
+        "nombre": "130",
+        "img": "/images/IMG_0257.webp",
+        "disponible": true
+      },
+      {
+        "nombre": "220",
+        "img": "/images/IMG_0258.webp",
+        "disponible": true
+      },
+      {
+        "nombre": "225",
+        "img": "/images/IMG_0259.jpeg",
+        "disponible": true
+      },
+      {
+        "nombre": "235",
+        "img": "/images/IMG_0260.jpeg",
+        "disponible": true
+      },
+      {
+        "nombre": "240",
+        "img": "/images/IMG_0261.jpeg",
+        "disponible": true
+      },
+      {
+        "nombre": "375",
+        "img": "/images/IMG_0262.jpeg",
+        "disponible": true
+      }
+    ],
     "disponible": true
   },
   {
