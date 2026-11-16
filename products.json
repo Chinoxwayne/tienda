@@ -250,6 +250,78 @@
     "cat": "Maquillaje",
     "desc": "Base de maquillaje ligera y sin aceite, ideal para piel normal a grasa. Ofrece cobertura media y acabado mate natural, ayuda a controlar el brillo, disimular los poros y mantener la piel suave hasta por 12 horas. Su fórmula no comedogénica no obstruye los poros.",
     "img": "/images/IMG_0212.jpeg",
+    "tonos": [
+      {
+        "nombre": "12’",
+        "img": "/images/IMG_0238.webp",
+        "disponible": true
+      },
+      {
+        "nombre": "110",
+        "img": "/images/IMG_0239.webp",
+        "disponible": true
+      },
+      {
+        "nombre": "112",
+        "img": "/images/IMG_0240.webp",
+        "disponible": true
+      },
+      {
+        "nombre": "115",
+        "img": "/images/IMG_0241.webp",
+        "disponible": true
+      },
+      {
+        "nombre": "118",
+        "img": "/images/IMG_0242.webp",
+        "disponible": true
+      },
+      {
+        "nombre": "120",
+        "img": "/images/IMG_0243.webp",
+        "disponible": true
+      },
+      {
+        "nombre": "122",
+        "img": "/images/IMG_0244.webp",
+        "disponible": true
+      },
+      {
+        "nombre": "124",
+        "img": "/images/IMG_0245.webp",
+        "disponible": true
+      },
+      {
+        "nombre": "125",
+        "img": "/images/IMG_0246.webp",
+        "disponible": true
+      },
+      {
+        "nombre": "128",
+        "img": "/images/IMG_0247.webp",
+        "disponible": true
+      },
+      {
+        "nombre": "130",
+        "img": "/images/IMG_0248.webp",
+        "disponible": true
+      },
+      {
+        "nombre": "222",
+        "img": "/images/IMG_0249.webp",
+        "disponible": true
+      },
+      {
+        "nombre": "235",
+        "img": "/images/IMG_0250.webp",
+        "disponible": true
+      },
+      {
+        "nombre": "242",
+        "img": "/images/IMG_0251.webp",
+        "disponible": true
+      }
+    ],
     "disponible": true
   },
   {
