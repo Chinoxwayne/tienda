@@ -135,6 +135,11 @@
         "nombre": "Taffee",
         "img": "/images/IMG_0266-1.jpeg",
         "disponible": true
+      },
+      {
+        "nombre": "Spice room ",
+        "img": "/images/IMG_0267.jpeg",
+        "disponible": true
       }
     ],
     "disponible": true,
