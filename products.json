@@ -130,6 +130,11 @@
         "nombre": "Cocoa",
         "img": "/images/IMG_0265-2.png",
         "disponible": true
+      },
+      {
+        "nombre": "Taffee",
+        "img": "/images/IMG_0266-1.jpeg",
+        "disponible": true
       }
     ],
     "disponible": true,
