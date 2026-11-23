@@ -125,6 +125,13 @@
     "cat": "Maquillaje",
     "desc": "Corrector de cobertura natural.",
     "img": "https://i5.walmartimages.com/seo/Too-Faced-Born-This-Way-Super-Coverage-Multi-Use-Longwear-Concealer-Pearl_c811b576-4362-4025-ac1a-a619809c4a3c.54ad0ad9a5f72693d681efcb3a617c69.jpeg",
+    "tonos": [
+      {
+        "nombre": "Cocoa",
+        "img": "/images/IMG_0265-2.png",
+        "disponible": true
+      }
+    ],
     "disponible": true,
     "id": "9999"
   },
